@@ -1,0 +1,28 @@
+version: "3.6"
+services:
+    open-id-connect-rest-api:
+        environment:
+            - FLUX_OPEN_ID_CONNECT_API_PROVIDER_URL=...
+            - FLUX_OPEN_ID_CONNECT_API_PROVIDER_CLIENT_ID_FILE=/run/secrets/open_id_connect_provider_client_id
+            - FLUX_OPEN_ID_CONNECT_API_PROVIDER_CLIENT_SECRET_FILE=/run/secrets/open_id_connect_provider_client_secret
+            - FLUX_OPEN_ID_CONNECT_API_PROVIDER_REDIRECT_URI=http://%host%:9501/callback
+            - FLUX_OPEN_ID_CONNECT_API_ROUTE_AFTER_LOGIN_URL=/userinfos
+            - FLUX_OPEN_ID_CONNECT_API_SESSION_CRYPT_PLAIN=true
+            - FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SECURE=false
+        image: docker-registry.fluxpublisher.ch/flux-open-id-connect/rest-api:latest
+        ports:
+            - [%host_ip%:]9501:9501
+        secrets:
+            - open_id_connect_provider_client_id
+            - open_id_connect_provider_client_secret
+    other-service:
+        depends_on:
+            - open-id-connect-rest-api
+        environment:
+            [- FLUX_OPEN_ID_CONNECT_REST_API_HOST=open-id-connect-rest-api]
+            [- FLUX_OPEN_ID_CONNECT_REST_API_PORT=9501]
+secrets:
+    open_id_connect_provider_client_id:
+        file: ./data/secrets/open_id_connect_provider_client_id
+    open_id_connect_provider_client_secret:
+        file: ./data/secrets/open_id_connect_provider_client_secret
