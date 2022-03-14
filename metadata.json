@@ -1,0 +1,21 @@
+{
+    "description": "Open Id Connect Rest Api",
+    "topics": [
+        "api",
+        "auth",
+        "authentication",
+        "authorization",
+        "connect",
+        "docker",
+        "id",
+        "login",
+        "logout",
+        "open",
+        "openid",
+        "openidconnect",
+        "php",
+        "rest",
+        "user"
+    ],
+    "homepage": "https://github.com/fluxapps/flux-open-id-connect-rest-api"
+}
