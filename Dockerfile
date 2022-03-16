@@ -52,6 +52,6 @@ USER www-data:www-data
 
 EXPOSE 9501
 
-ENTRYPOINT ["/flux-open-id-connect-rest-api/bin/docker-entrypoint.php"]
+ENTRYPOINT ["/flux-open-id-connect-rest-api/bin/server.php"]
 
 COPY --from=build /flux-open-id-connect-rest-api /flux-open-id-connect-rest-api
