@@ -2,7 +2,7 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Route;
 
-use FluxOpenIdConnectRestApi\Adapter\Config\CookieConfigDto;
+use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
 use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Cookie\CookieDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Libs\FluxRestBaseApi\Header\DefaultHeader;

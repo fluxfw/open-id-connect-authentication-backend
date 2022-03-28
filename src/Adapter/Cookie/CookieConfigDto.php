@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxOpenIdConnectRestApi\Adapter\Config;
+namespace FluxOpenIdConnectRestApi\Adapter\Cookie;
 
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Cookie\Priority\CookiePriority;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Cookie\Priority\DefaultCookiePriority;
