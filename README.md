@@ -4,7 +4,7 @@ Open Id Connect Rest Api
 
 ## Environment variables
 
-First look at [flux-open-id-connect-api](https://github.com/fluxapps/flux-open-id-connect-api#environment-variables)
+First look at [flux-open-id-connect-api](https://github.com/flux-eco/flux-open-id-connect-api#environment-variables)
 
 | Variable | Description | Default value |
 | -------- | ----------- | ------------- |
