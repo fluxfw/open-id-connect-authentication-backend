@@ -5,13 +5,13 @@ namespace FluxOpenIdConnectRestApi\Adapter\Route;
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
 use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Cookie\CookieDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Libs\FluxRestBaseApi\Header\DefaultHeader;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Libs\FluxRestBaseApi\Method\DefaultMethod;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Libs\FluxRestBaseApi\Method\Method;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Libs\FluxRestBaseApi\Status\DefaultStatus;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Header\DefaultHeader;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Method\DefaultMethod;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Method\Method;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Request\RequestDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Response\ResponseDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Route\Route;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Status\DefaultStatus;
 
 class LogoutRoute implements Route
 {
