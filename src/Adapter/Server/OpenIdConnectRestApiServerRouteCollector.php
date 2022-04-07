@@ -8,7 +8,7 @@ use FluxOpenIdConnectRestApi\Adapter\Route\LoginRoute;
 use FluxOpenIdConnectRestApi\Adapter\Route\LogoutRoute;
 use FluxOpenIdConnectRestApi\Adapter\Route\UserInfosRoute;
 use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Collector\RouteCollector;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Collector\RouteCollector;
 
 class OpenIdConnectRestApiServerRouteCollector implements RouteCollector
 {

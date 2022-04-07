@@ -3,14 +3,17 @@
 namespace FluxOpenIdConnectRestApi\Adapter\Server;
 
 use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\SwooleRestApiServer;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\SwooleRestApiServerConfigDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Api\RestApi;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Collector\RouteCollector;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\SwooleServerConfigDto;
 
 class OpenIdConnectRestApiServer
 {
 
     private function __construct(
-        private readonly SwooleRestApiServer $swoole_rest_api_server
+        private readonly RestApi $rest_api,
+        private readonly RouteCollector $route_collector,
+        private readonly SwooleServerConfigDto $swoole_server_config
     ) {
 
     }
@@ -22,20 +25,18 @@ class OpenIdConnectRestApiServer
         $open_id_connect_rest_api_server_config ??= OpenIdConnectRestApiServerConfigDto::newFromEnv();
 
         return new static(
-            SwooleRestApiServer::new(
-                OpenIdConnectRestApiServerRouteCollector::new(
-                    OpenIdConnectApi::new(
-                        $open_id_connect_rest_api_server_config->open_id_connect_api_config
-                    ),
-                    $open_id_connect_rest_api_server_config->cookie_config
+            RestApi::new(),
+            OpenIdConnectRestApiServerRouteCollector::new(
+                OpenIdConnectApi::new(
+                    $open_id_connect_rest_api_server_config->open_id_connect_api_config
                 ),
-                null,
-                SwooleRestApiServerConfigDto::new(
-                    $open_id_connect_rest_api_server_config->https_cert,
-                    $open_id_connect_rest_api_server_config->https_key,
-                    $open_id_connect_rest_api_server_config->listen,
-                    $open_id_connect_rest_api_server_config->port
-                )
+                $open_id_connect_rest_api_server_config->cookie_config
+            ),
+            SwooleServerConfigDto::new(
+                $open_id_connect_rest_api_server_config->https_cert,
+                $open_id_connect_rest_api_server_config->https_key,
+                $open_id_connect_rest_api_server_config->listen,
+                $open_id_connect_rest_api_server_config->port
             )
         );
     }
@@ -43,6 +44,10 @@ class OpenIdConnectRestApiServer
 
     public function init() : void
     {
-        $this->swoole_rest_api_server->init();
+        $this->rest_api->initSwooleServer(
+            $this->route_collector,
+            null,
+            $this->swoole_server_config
+        );
     }
 }

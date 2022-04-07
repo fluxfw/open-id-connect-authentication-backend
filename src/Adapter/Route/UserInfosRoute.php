@@ -4,14 +4,14 @@ namespace FluxOpenIdConnectRestApi\Adapter\Route;
 
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
 use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Body\JsonBodyDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Body\TextBodyDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Method\DefaultMethod;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Method\Method;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Request\RequestDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Response\ResponseDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Route\Route;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Status\DefaultStatus;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Body\JsonBodyDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Body\TextBodyDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\DefaultMethod;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\Method;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Route;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerRequestDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Status\DefaultStatus;
 
 class UserInfosRoute implements Route
 {
@@ -59,7 +59,7 @@ class UserInfosRoute implements Route
     }
 
 
-    public function handle(RequestDto $request) : ?ResponseDto
+    public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
         $user_infos = $this->open_id_connect_api->getUserInfos(
             $request->getCookie(
@@ -68,13 +68,13 @@ class UserInfosRoute implements Route
         );
 
         if ($user_infos !== null) {
-            return ResponseDto::new(
+            return ServerResponseDto::new(
                 JsonBodyDto::new(
                     $user_infos
                 )
             );
         } else {
-            return ResponseDto::new(
+            return ServerResponseDto::new(
                 TextBodyDto::new(
                     "Authorization needed"
                 ),

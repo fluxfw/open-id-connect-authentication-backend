@@ -4,15 +4,15 @@ namespace FluxOpenIdConnectRestApi\Adapter\Route;
 
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
 use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Body\TextBodyDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Cookie\CookieDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Header\DefaultHeader;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Method\DefaultMethod;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Method\Method;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Request\RequestDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Response\ResponseDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Route\Route;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Status\DefaultStatus;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Body\TextBodyDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\CookieDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Header\DefaultHeader;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\DefaultMethod;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\Method;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Route;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerRequestDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Status\DefaultStatus;
 
 class CallbackRoute implements Route
 {
@@ -65,7 +65,7 @@ class CallbackRoute implements Route
     }
 
 
-    public function handle(RequestDto $request) : ?ResponseDto
+    public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
         [$encrypted_session, $redirect_url] = $this->open_id_connect_api->callback(
             $request->getCookie(
@@ -75,7 +75,7 @@ class CallbackRoute implements Route
         );
 
         if ($redirect_url !== null) {
-            return ResponseDto::new(
+            return ServerResponseDto::new(
                 null,
                 DefaultStatus::_302,
                 [
@@ -96,7 +96,7 @@ class CallbackRoute implements Route
                 ]
             );
         } else {
-            return ResponseDto::new(
+            return ServerResponseDto::new(
                 TextBodyDto::new(
                     "Invalid authorization"
                 ),
