@@ -8,21 +8,21 @@ FROM $FLUX_NAMESPACE_CHANGER_IMAGE:latest AS flux_autoload_api_build
 ENV FLUX_NAMESPACE_CHANGER_FROM_NAMESPACE FluxAutoloadApi
 ENV FLUX_NAMESPACE_CHANGER_TO_NAMESPACE FluxOpenIdConnectRestApi\\Libs\\FluxAutoloadApi
 COPY --from=flux_autoload_api /flux-autoload-api /code
-RUN /flux-namespace-changer/bin/docker-entrypoint.php
+RUN change-namespace
 
 FROM $FLUX_OPEN_ID_CONNECT_API_IMAGE:latest AS flux_open_id_connect_api
 FROM $FLUX_NAMESPACE_CHANGER_IMAGE:latest AS flux_open_id_connect_api_build
 ENV FLUX_NAMESPACE_CHANGER_FROM_NAMESPACE FluxOpenIdConnectApi
 ENV FLUX_NAMESPACE_CHANGER_TO_NAMESPACE FluxOpenIdConnectRestApi\\Libs\\FluxOpenIdConnectApi
 COPY --from=flux_open_id_connect_api /flux-open-id-connect-api /code
-RUN /flux-namespace-changer/bin/docker-entrypoint.php
+RUN change-namespace
 
 FROM $FLUX_REST_API_IMAGE:latest AS flux_rest_api
 FROM $FLUX_NAMESPACE_CHANGER_IMAGE:latest AS flux_rest_api_build
 ENV FLUX_NAMESPACE_CHANGER_FROM_NAMESPACE FluxRestApi
 ENV FLUX_NAMESPACE_CHANGER_TO_NAMESPACE FluxOpenIdConnectRestApi\\Libs\\FluxRestApi
 COPY --from=flux_rest_api /flux-rest-api /code
-RUN /flux-namespace-changer/bin/docker-entrypoint.php
+RUN change-namespace
 
 FROM alpine:latest AS build
 
