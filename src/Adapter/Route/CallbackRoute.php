@@ -6,7 +6,7 @@ use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
 use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Body\TextBodyDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\CookieDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Header\DefaultHeader;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Header\DefaultHeaderKey;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\Method;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Route;
@@ -79,7 +79,7 @@ class CallbackRoute implements Route
                 null,
                 DefaultStatus::_302,
                 [
-                    DefaultHeader::LOCATION->value => $redirect_url
+                    DefaultHeaderKey::LOCATION->value => $redirect_url
                 ],
                 [
                     CookieDto::new(

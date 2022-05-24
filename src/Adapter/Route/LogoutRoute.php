@@ -5,7 +5,7 @@ namespace FluxOpenIdConnectRestApi\Adapter\Route;
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
 use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\CookieDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Header\DefaultHeader;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Header\DefaultHeaderKey;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\Method;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Route;
@@ -65,7 +65,7 @@ class LogoutRoute implements Route
             null,
             DefaultStatus::_302,
             [
-                DefaultHeader::LOCATION->value => $this->open_id_connect_api->logout()
+                DefaultHeaderKey::LOCATION->value => $this->open_id_connect_api->logout()
             ],
             [
                 CookieDto::new(
