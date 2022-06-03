@@ -5,10 +5,14 @@ namespace FluxOpenIdConnectRestApi\Adapter\Route;
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
 use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Body\TextBodyDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Body\Type\DefaultBodyType;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\CookieDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Header\DefaultHeaderKey;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\Method;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Documentation\RouteParamDocumentationDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Route;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerResponseDto;
@@ -36,20 +40,48 @@ class CallbackRoute implements Route
     }
 
 
-    public function getDocuRequestBodyTypes() : ?array
+    public function getDocumentation() : ?RouteDocumentationDto
     {
-        return null;
-    }
-
-
-    public function getDocuRequestQueryParams() : ?array
-    {
-        return [
-            "code",
-            "error",
-            "error_description",
-            "state"
-        ];
+        return RouteDocumentationDto::new(
+            $this->getRoute(),
+            $this->getMethod(),
+            "Provider redirect callback",
+            null,
+            null,
+            [
+                RouteParamDocumentationDto::new(
+                    "code",
+                    "string"
+                ),
+                RouteParamDocumentationDto::new(
+                    "error",
+                    "string"
+                ),
+                RouteParamDocumentationDto::new(
+                    "error_description",
+                    "string"
+                ),
+                RouteParamDocumentationDto::new(
+                    "state",
+                    "string"
+                )
+            ],
+            null,
+            [
+                RouteResponseDocumentationDto::new(
+                    null,
+                    DefaultStatus::_302,
+                    null,
+                    "Redirect to after login url"
+                ),
+                RouteResponseDocumentationDto::new(
+                    DefaultBodyType::TEXT,
+                    DefaultStatus::_403,
+                    null,
+                    "Invalid authorization"
+                )
+            ]
+        );
     }
 
 

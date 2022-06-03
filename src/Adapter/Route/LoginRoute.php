@@ -8,6 +8,8 @@ use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\CookieDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Header\DefaultHeaderKey;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\DefaultMethod;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\Method;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
+use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Route;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerRequestDto;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerResponseDto;
@@ -35,15 +37,25 @@ class LoginRoute implements Route
     }
 
 
-    public function getDocuRequestBodyTypes() : ?array
+    public function getDocumentation() : ?RouteDocumentationDto
     {
-        return null;
-    }
-
-
-    public function getDocuRequestQueryParams() : ?array
-    {
-        return null;
+        return RouteDocumentationDto::new(
+            $this->getRoute(),
+            $this->getMethod(),
+            "Login user",
+            null,
+            null,
+            null,
+            null,
+            [
+                RouteResponseDocumentationDto::new(
+                    null,
+                    DefaultStatus::_302,
+                    null,
+                    "Redirect to provider authorization endpoint"
+                )
+            ]
+        );
     }
 
 
