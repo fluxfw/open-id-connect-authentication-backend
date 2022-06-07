@@ -103,7 +103,7 @@ class CallbackRoute implements Route
             $request->getCookie(
                 $this->cookie_config->name
             ),
-            $request->getQueryParams()
+            $request->query_params
         );
 
         if ($redirect_url !== null) {
