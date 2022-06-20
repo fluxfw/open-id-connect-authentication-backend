@@ -3,9 +3,7 @@
 namespace FluxOpenIdConnectRestApi\Adapter\Cookie;
 
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\Priority\CookiePriority;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\Priority\DefaultCookiePriority;
 use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\SameSite\CookieSameSite;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\SameSite\DefaultCookieSameSite;
 
 class CookieConfigDto
 {
@@ -41,8 +39,8 @@ class CookieConfigDto
             $domain ?? "",
             $secure ?? true,
             $http_only ?? true,
-            $same_site ?? DefaultCookieSameSite::LAX,
-            $priority ?? DefaultCookiePriority::MEDIUM
+            $same_site ?? CookieSameSite::LAX,
+            $priority ?? CookiePriority::MEDIUM
         );
     }
 
@@ -56,8 +54,8 @@ class CookieConfigDto
             $_ENV["FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_DOMAIN"] ?? null,
             ($secure = $_ENV["FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SECURE"] ?? null) !== null ? in_array($secure, ["true", "1"]) : null,
             ($http_only = $_ENV["FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_HTTP_ONLY"] ?? null) !== null ? in_array($http_only, ["true", "1"]) : null,
-            ($same_site = $_ENV["FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SAME_SITE"] ?? null) !== null ? DefaultCookieSameSite::from($same_site) : null,
-            ($priority = $_ENV["FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_PRIORITY"] ?? null) !== null ? DefaultCookiePriority::from($priority) : null
+            ($same_site = $_ENV["FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SAME_SITE"] ?? null) !== null ? CookieSameSite::from($same_site) : null,
+            ($priority = $_ENV["FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_PRIORITY"] ?? null) !== null ? CookiePriority::from($priority) : null
         );
     }
 }
