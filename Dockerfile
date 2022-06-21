@@ -20,10 +20,12 @@ RUN change-namespace /code/flux-rest-api FluxRestApi FluxOpenIdConnectRestApi\\L
 
 FROM alpine:latest AS build
 
-COPY --from=build_namespaces /code/flux-autoload-api /flux-open-id-connect-rest-api/libs/flux-autoload-api
-COPY --from=build_namespaces /code/flux-open-id-connect-api /flux-open-id-connect-rest-api/libs/flux-open-id-connect-api
-COPY --from=build_namespaces /code/flux-rest-api /flux-open-id-connect-rest-api/libs/flux-rest-api
-COPY . /flux-open-id-connect-rest-api
+COPY --from=build_namespaces /code/flux-autoload-api /build/flux-open-id-connect-rest-api/libs/flux-autoload-api
+COPY --from=build_namespaces /code/flux-open-id-connect-api /build/flux-open-id-connect-rest-api/libs/flux-open-id-connect-api
+COPY --from=build_namespaces /code/flux-rest-api /build/flux-open-id-connect-rest-api/libs/flux-rest-api
+COPY . /build/flux-open-id-connect-rest-api
+
+RUN (cd /build && tar -czf flux-open-id-connect-rest-api.tar.gz flux-open-id-connect-rest-api)
 
 FROM php:8.1-cli-alpine
 
@@ -44,7 +46,7 @@ EXPOSE 9501
 
 ENTRYPOINT ["/flux-open-id-connect-rest-api/bin/server.php"]
 
-COPY --from=build /flux-open-id-connect-rest-api /flux-open-id-connect-rest-api
+COPY --from=build /build /
 
 ARG COMMIT_SHA
 LABEL org.opencontainers.image.revision="$COMMIT_SHA"
