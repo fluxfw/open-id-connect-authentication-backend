@@ -8,7 +8,7 @@ services:
             - FLUX_OPEN_ID_CONNECT_API_ROUTE_AFTER_LOGIN_URL=/userinfos
             - FLUX_OPEN_ID_CONNECT_API_SESSION_CRYPT_PLAIN=true
             - FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SECURE=false
-        image: docker-registry.fluxpublisher.ch/flux-open-id-connect/rest-api:latest
+        image: docker-registry.fluxpublisher.ch/flux-open-id-connect-rest-api:latest
         ports:
             - [%host_ip%:]9501:9501
         secrets:
