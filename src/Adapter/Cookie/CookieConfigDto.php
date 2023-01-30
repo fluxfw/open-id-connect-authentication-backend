@@ -2,8 +2,8 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Cookie;
 
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\Priority\CookiePriority;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\SameSite\CookieSameSite;
+use FluxRestApi\Adapter\Cookie\Priority\CookiePriority;
+use FluxRestApi\Adapter\Cookie\SameSite\CookieSameSite;
 
 class CookieConfigDto
 {

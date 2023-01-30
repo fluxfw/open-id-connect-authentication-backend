@@ -2,8 +2,8 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Server;
 
+use FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApiConfigDto;
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
-use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApiConfigDto;
 
 class OpenIdConnectRestApiServerConfigDto
 {
