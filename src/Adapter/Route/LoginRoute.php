@@ -2,18 +2,18 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Route;
 
+use FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
-use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\CookieDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Header\DefaultHeaderKey;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\DefaultMethod;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\Method;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Route;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerRequestDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Status\DefaultStatus;
+use FluxRestApi\Adapter\Cookie\CookieDto;
+use FluxRestApi\Adapter\Header\DefaultHeaderKey;
+use FluxRestApi\Adapter\Method\DefaultMethod;
+use FluxRestApi\Adapter\Method\Method;
+use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
+use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
+use FluxRestApi\Adapter\Route\Route;
+use FluxRestApi\Adapter\Server\ServerRequestDto;
+use FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 
 class LoginRoute implements Route
 {

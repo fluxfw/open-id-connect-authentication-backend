@@ -2,21 +2,21 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Route;
 
+use FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
+use FluxOpenIdConnectApi\Adapter\UserInfo\UserInfosDto;
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
-use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
-use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\UserInfo\UserInfosDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Body\JsonBodyDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Body\TextBodyDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Body\Type\DefaultBodyType;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Cookie\CookieDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\DefaultMethod;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Method\Method;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Route;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerRequestDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\ServerResponseDto;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Status\DefaultStatus;
+use FluxRestApi\Adapter\Body\JsonBodyDto;
+use FluxRestApi\Adapter\Body\TextBodyDto;
+use FluxRestApi\Adapter\Body\Type\DefaultBodyType;
+use FluxRestApi\Adapter\Cookie\CookieDto;
+use FluxRestApi\Adapter\Method\DefaultMethod;
+use FluxRestApi\Adapter\Method\Method;
+use FluxRestApi\Adapter\Route\Documentation\RouteDocumentationDto;
+use FluxRestApi\Adapter\Route\Documentation\RouteResponseDocumentationDto;
+use FluxRestApi\Adapter\Route\Route;
+use FluxRestApi\Adapter\Server\ServerRequestDto;
+use FluxRestApi\Adapter\Server\ServerResponseDto;
+use FluxRestApi\Adapter\Status\DefaultStatus;
 
 class UserInfosRoute implements Route
 {

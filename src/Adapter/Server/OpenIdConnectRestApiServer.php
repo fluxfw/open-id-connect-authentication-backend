@@ -2,10 +2,10 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Server;
 
-use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Api\RestApi;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Collector\RouteCollector;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Server\SwooleServerConfigDto;
+use FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
+use FluxRestApi\Adapter\Api\RestApi;
+use FluxRestApi\Adapter\Route\Collector\RouteCollector;
+use FluxRestApi\Adapter\Server\SwooleServerConfigDto;
 
 class OpenIdConnectRestApiServer
 {

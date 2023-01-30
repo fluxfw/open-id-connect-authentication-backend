@@ -2,13 +2,13 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Server;
 
+use FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
 use FluxOpenIdConnectRestApi\Adapter\Route\CallbackRoute;
 use FluxOpenIdConnectRestApi\Adapter\Route\LoginRoute;
 use FluxOpenIdConnectRestApi\Adapter\Route\LogoutRoute;
 use FluxOpenIdConnectRestApi\Adapter\Route\UserInfosRoute;
-use FluxOpenIdConnectRestApi\Libs\FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
-use FluxOpenIdConnectRestApi\Libs\FluxRestApi\Adapter\Route\Collector\RouteCollector;
+use FluxRestApi\Adapter\Route\Collector\RouteCollector;
 
 class OpenIdConnectRestApiServerRouteCollector implements RouteCollector
 {
