@@ -2,8 +2,9 @@
 
 namespace FluxOpenIdConnectRestApi;
 
-require_once __DIR__ . "/../libs/flux-open-id-connect-api/autoload.php";
-require_once __DIR__ . "/../libs/flux-rest-api/autoload.php";
+require_once __DIR__ . "/../../flux-open-id-connect-api/autoload.php";
+
+require_once __DIR__ . "/../../flux-rest-api/autoload.php";
 
 spl_autoload_register(function (string $class) : void {
     if (str_starts_with($class, __NAMESPACE__ . "\\")) {

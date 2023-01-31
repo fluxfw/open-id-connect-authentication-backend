@@ -1,10 +1,11 @@
 FROM php:8.2-cli-alpine AS build
 
-RUN (mkdir -p /build/flux-open-id-connect-rest-api/libs/flux-open-id-connect-api && cd /build/flux-open-id-connect-rest-api/libs/flux-open-id-connect-api && wget -O - https://github.com/fluxfw/flux-open-id-connect-api/archive/refs/tags/v2023-01-30-1.tar.gz | tar -xz --strip-components=1)
+COPY bin/install-libraries.sh /build/flux-open-id-connect-rest-api/libs/flux-open-id-connect-rest-api/bin/install-libraries.sh
+RUN /build/flux-open-id-connect-rest-api/libs/flux-open-id-connect-rest-api/bin/install-libraries.sh
 
-RUN (mkdir -p /build/flux-open-id-connect-rest-api/libs/flux-rest-api && cd /build/flux-open-id-connect-rest-api/libs/flux-rest-api && wget -O - https://github.com/fluxfw/flux-rest-api/archive/refs/tags/v2023-01-30-1.tar.gz | tar -xz --strip-components=1)
+RUN ln -s libs/flux-open-id-connect-rest-api/bin /build/flux-open-id-connect-rest-api/bin
 
-COPY . /build/flux-open-id-connect-rest-api
+COPY . /build/flux-open-id-connect-rest-api/libs/flux-open-id-connect-rest-api
 
 FROM php:8.2-cli-alpine
 
@@ -23,6 +24,3 @@ EXPOSE 9501
 ENTRYPOINT ["/flux-open-id-connect-rest-api/bin/server.php"]
 
 COPY --from=build /build /
-
-ARG COMMIT_SHA
-LABEL org.opencontainers.image.revision="$COMMIT_SHA"
