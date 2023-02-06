@@ -2,7 +2,7 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Server;
 
-use FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
+use FluxOpenIdConnectRestApi\Adapter\Api\OpenIdConnectRestApi;
 use FluxRestApi\Adapter\Api\RestApi;
 use FluxRestApi\Adapter\Route\Collector\RouteCollector;
 use FluxRestApi\Adapter\Server\SwooleServerConfigDto;
@@ -27,8 +27,8 @@ class OpenIdConnectRestApiServer
         return new static(
             RestApi::new(),
             OpenIdConnectRestApiServerRouteCollector::new(
-                OpenIdConnectApi::new(
-                    $open_id_connect_rest_api_server_config->open_id_connect_api_config
+                OpenIdConnectRestApi::new(
+                    $open_id_connect_rest_api_server_config->open_id_connect_rest_api_config
                 ),
                 $open_id_connect_rest_api_server_config->cookie_config
             ),

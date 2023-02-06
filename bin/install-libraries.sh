@@ -18,6 +18,4 @@ installLibrary() {
 
 checkAlreadyInstalled
 
-installLibrary flux-open-id-connect-api https://github.com/fluxfw/flux-open-id-connect-api/archive/refs/tags/v2023-01-30-1.tar.gz
-
 installLibrary flux-rest-api https://github.com/fluxfw/flux-rest-api/archive/refs/tags/v2023-01-30-1.tar.gz

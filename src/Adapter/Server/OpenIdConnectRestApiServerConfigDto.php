@@ -2,14 +2,14 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Server;
 
-use FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApiConfigDto;
+use FluxOpenIdConnectRestApi\Adapter\Api\OpenIdConnectRestApiConfigDto;
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
 
 class OpenIdConnectRestApiServerConfigDto
 {
 
     private function __construct(
-        public readonly OpenIdConnectApiConfigDto $open_id_connect_api_config,
+        public readonly OpenIdConnectRestApiConfigDto $open_id_connect_rest_api_config,
         public readonly CookieConfigDto $cookie_config,
         public readonly ?string $https_cert,
         public readonly ?string $https_key,
@@ -21,7 +21,7 @@ class OpenIdConnectRestApiServerConfigDto
 
 
     public static function new(
-        OpenIdConnectApiConfigDto $open_id_connect_api_config,
+        OpenIdConnectRestApiConfigDto $open_id_connect_rest_api_config,
         CookieConfigDto $cookie_config,
         ?string $https_cert = null,
         ?string $https_key = null,
@@ -29,7 +29,7 @@ class OpenIdConnectRestApiServerConfigDto
         ?int $port = null
     ) : static {
         return new static(
-            $open_id_connect_api_config,
+            $open_id_connect_rest_api_config,
             $cookie_config,
             $https_cert,
             $https_key,
@@ -42,7 +42,7 @@ class OpenIdConnectRestApiServerConfigDto
     public static function newFromEnv() : static
     {
         return static::new(
-            OpenIdConnectApiConfigDto::newFromEnv(),
+            OpenIdConnectRestApiConfigDto::newFromEnv(),
             CookieConfigDto::newFromEnv(),
             $_ENV["FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_CERT"] ?? null,
             $_ENV["FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_KEY"] ?? null,
