@@ -2,9 +2,9 @@
 
 namespace FluxOpenIdConnectRestApi\Adapter\Route;
 
-use FluxOpenIdConnectApi\Adapter\Api\OpenIdConnectApi;
-use FluxOpenIdConnectApi\Adapter\UserInfo\UserInfosDto;
+use FluxOpenIdConnectRestApi\Adapter\Api\OpenIdConnectRestApi;
 use FluxOpenIdConnectRestApi\Adapter\Cookie\CookieConfigDto;
+use FluxOpenIdConnectRestApi\Adapter\UserInfo\UserInfosDto;
 use FluxRestApi\Adapter\Body\JsonBodyDto;
 use FluxRestApi\Adapter\Body\TextBodyDto;
 use FluxRestApi\Adapter\Body\Type\DefaultBodyType;
@@ -22,7 +22,7 @@ class UserInfosRoute implements Route
 {
 
     private function __construct(
-        private readonly OpenIdConnectApi $open_id_connect_api,
+        private readonly OpenIdConnectRestApi $open_id_connect_rest_api,
         private readonly CookieConfigDto $cookie_config
     ) {
 
@@ -30,11 +30,11 @@ class UserInfosRoute implements Route
 
 
     public static function new(
-        OpenIdConnectApi $open_id_connect_api,
+        OpenIdConnectRestApi $open_id_connect_rest_api,
         CookieConfigDto $cookie_config
     ) : static {
         return new static(
-            $open_id_connect_api,
+            $open_id_connect_rest_api,
             $cookie_config
         );
     }
@@ -82,7 +82,7 @@ class UserInfosRoute implements Route
 
     public function handle(ServerRequestDto $request) : ?ServerResponseDto
     {
-        [$user_infos, $encrypted_session] = $this->open_id_connect_api->getUserInfos(
+        [$user_infos, $encrypted_session] = $this->open_id_connect_rest_api->getUserInfos(
             $request->getCookie(
                 $this->cookie_config->name
             )

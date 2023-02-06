@@ -1,11 +1,11 @@
 services:
     open-id-connect-rest-api:
         environment:
-            - FLUX_OPEN_ID_CONNECT_API_PROVIDER_URL=...
-            - FLUX_OPEN_ID_CONNECT_API_PROVIDER_CLIENT_ID_FILE=/run/secrets/open_id_connect_provider_client_id
-            - FLUX_OPEN_ID_CONNECT_API_PROVIDER_CLIENT_SECRET_FILE=/run/secrets/open_id_connect_provider_client_secret
-            - FLUX_OPEN_ID_CONNECT_API_PROVIDER_REDIRECT_URI=https://%host%/callback
-            - FLUX_OPEN_ID_CONNECT_API_SESSION_CRYPT_SECRET_FILE=/run/secrets/open_id_connect_session_crypt_secret
+            - FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_URL=...
+            - FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_ID_FILE=/run/secrets/open_id_connect_provider_client_id
+            - FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_SECRET_FILE=/run/secrets/open_id_connect_provider_client_secret
+            - FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_REDIRECT_URI=https://%host%/callback
+            - FLUX_OPEN_ID_CONNECT_REST_API_SESSION_CRYPT_SECRET_FILE=/run/secrets/open_id_connect_session_crypt_secret
         image: fluxfw/flux-open-id-connect-rest-api:latest
         restart: always
         secrets:
