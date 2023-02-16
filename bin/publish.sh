@@ -11,6 +11,8 @@ tag="`get-release-tag "$root"`"
 
 "$bin/build.sh"
 
+#flux-js-lint "$root"
+
 tag-release "$root"
 create-github-release "$root"
 

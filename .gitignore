@@ -1,13 +1,10 @@
 *
 !bin
 !bin/**
-!examples
-!examples/**
 !src
 !src/**
 !.dockerignore
 !.gitignore
-!autoload.php
 !CHANGELOG.md
 !Dockerfile
 !metadata.json

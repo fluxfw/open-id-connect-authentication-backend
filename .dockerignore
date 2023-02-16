@@ -1,6 +1,5 @@
 *
 !bin/install-libraries.sh
-!bin/server.php
+!bin/server.mjs
 !src
 !src/**
-!autoload.php

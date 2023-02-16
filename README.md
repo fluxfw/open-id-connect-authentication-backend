@@ -1,38 +1,36 @@
 # flux-open-id-connect-rest-api
 
-Open Id Connect Rest Api
+## Config
 
-## Environment variables
+| Config | Default value | Environment variable | Cli parameter | Config JSON file |
+| ------ | ------------- | -------------------- | ------------- | ---------------- |
+| Config JSON file<br>(Root entry need to be an object) | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_CONFIG_FILE` | `--config-file` | *-* |
+| Base route | `/api/authentication` | `FLUX_OPEN_ID_CONNECT_REST_API_BASE_ROUTE`<br>`FLUX_OPEN_ID_CONNECT_REST_API_BASE_ROUTE_FILE` | `--base-route`<br>`--base-route-file` | `"base-route"`<br>`"base-route-file"` |
+| Cookie domain | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_DOMAIN`<br>`FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_DOMAIN_FILE` | `--cookie-domain`<br>`--cookie-domain-file` | `"cookie-domain"`<br>`"cookie-domain-file"` |
+| Cookie http only | `true` | `FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_HTTP_ONLY`<br>`FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_HTTP_ONLY_FILE` | `--cookie-http-only`<br>`--cookie-http-only-file` | `"cookie-http-only"`<br>`"cookie-http-only-file"` |
+| Cookie max age | `604800` (1 week)<br>(Set to `0` for session) | `FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_MAX_AGE`<br>`FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_MAX_AGE_FILE` | `--cookie-max-age`<br>`--cookie-max-age-file` | `"cookie-max-age"`<br>`"cookie-max-age-file"` |
+| Cookie key (Hex encoded) | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_KEY`<br>`FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_KEY_FILE` | `--cookie-key`<br>`--cookie-key-file` | `"cookie-key"`<br>`"cookie-key-file"` |
+| Cookie name | `authentication` | `FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_NAME`<br>`FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_NAME_FILE` | `--cookie-name`<br>`--cookie-name-file` | `"cookie-name"`<br>`"cookie-name-file"` |
+| Cookie path | `/` | `FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_PATH`<br>`FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_PATH_FILE` | `--cookie-path`<br>`--cookie-path-file` | `"cookie-path"`<br>`"cookie-path-file"` |
+| Cookie priority | `Medium` | `FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_PRIORITY`<br>`FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_PRIORITY_FILE` | `--cookie-priority`<br>`--cookie-priority-file` | `"cookie-priority"`<br>`"cookie-priority-file"` |
+| Cookie same site | `Lax` | `FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SAME_SITE`<br>`FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SAME_SITE_FILE` | `--cookie-same-site`<br>`--cookie-same-site-file` | `"cookie-same-site"`<br>`"cookie-same-site-file"` |
+| Cookie secure | `true` | `FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SECURE`<br>`FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SECURE_FILE` | `--cookie-secure`<br>`--cookie-secure-file` | `"cookie-secure"`<br>`"cookie-secure-file"` |
+| Provider certificate | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CERTIFICATE`<br>`FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CERTIFICATE_FILE` | `--provider-certificate`<br>`--provider-certificate-file` | `"provider-certificate"`<br>`"provider-certificate-file"` |
+| **Provider client id** | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_ID`<br>`FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_ID_FILE` | `--provider-client-id`<br>`--provider-client-id-file` | `"provider-url"`<br>`"provider-client-id-file"` |
+| **Provider client secret** | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_SECRET`<br>`FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_SECRET_FILE` | `--provider-client-secret`<br>`--provider-client-secret-file` | `"provider-client-secret"`<br>`"provider-client-secret-file"` |
+| Provider redirect uri | `http[s]://%host%/api/authentication/callback` (Based on request and base route) | `FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_REDIRECT_URI`<br>`FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_REDIRECT_URI_FILE` | `--provider-redirect-uri`<br>`--provider-redirect-uri-file` | `"provider-redirect-uri"`<br>`"provider-redirect-uri-file"` |
+| Provider scope | `openid profile email` | `FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_SCOPE`<br>`FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_SCOPE_FILE` | `--provider-scope`<br>`--provider-scope-file` | `"provider-scope"`<br>`"provider-scope-file"` |
+| **Provider url** | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_URL`<br>`FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_URL_FILE` | `--provider-url`<br>`--provider-url-file` | `"provider-url"`<br>`"provider-url-file"` |
+| Redirect login url | `/Libs/flux-authentication-frontend-api/src/Adapter/Authentication/AuthenticationSuccess.html` | `FLUX_OPEN_ID_CONNECT_REST_API_REDIRECT_LOGIN_URL`<br>`FLUX_OPEN_ID_CONNECT_REST_API_REDIRECT_LOGIN_URL_FILE` | `--redirect-login-url`<br>`--redirect-login-url-file` | `"redirect-login-url"`<br>`"redirect-login-url-file"` |
+| Redirect logout url | `/` | `FLUX_OPEN_ID_CONNECT_REST_API_REDIRECT_LOGOUT_URL`<br>`FLUX_OPEN_ID_CONNECT_REST_API_REDIRECT_LOGOUT_URL_FILE` | `--redirect-logout-url`<br>`--redirect-logout-url-file` | `"redirect-logout-url"`<br>`"redirect-logout-url-file"` |
+| Server HTTPS certificate<br>(HTTPS is only used if this config is set) | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_CERTIFICATE`<br>`FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_CERTIFICATE_FILE` | `--server-https-certificate`<br>`--server-https-certificate-file` | `"server-https-certificate"`<br>`"server-https-certificate-file"` |
+| Server HTTPS dh param | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_DHPARAM`<br>`FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_DHPARAM_FILE` | `--server-https-dhparam`<br>`--server-https-dhparam-file` | `"server-https-dhparam"`<br>`"server-https-dhparam-file"` |
+| Server HTTPS private key<br>(HTTPS is only used if this config is set) | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_KEY`<br>`FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_KEY_FILE` | `--server-https-key`<br>`--server-https-key-file` | `"server-https-key"`<br>`"server-https-key-file"` |
+| Server listen HTTP port<br>(Set to `0` for disable HTTP) | `8080` | `FLUX_OPEN_ID_CONNECT_REST_API_SERVER_LISTEN_HTTP_PORT`<br>`FLUX_OPEN_ID_CONNECT_REST_API_SERVER_LISTEN_HTTP_PORT_FILE` | `--server-listen-http-port`<br>`--server-listen-http-port-file` | `"server-listen-http-port"`<br>`"server-listen-http-port-file"` |
+| Server listen HTTPS port<br>(Set to `0` for disable HTTPS) | `8443` | `FLUX_OPEN_ID_CONNECT_REST_API_SERVER_LISTEN_HTTPS_PORT`<br>`FLUX_OPEN_ID_CONNECT_REST_API_SERVER_LISTEN_HTTPS_PORT_FILE` | `--server-listen-https-port`<br>`--server-listen-https-port-file` | `"server-listen-https-port"`<br>`"server-listen-https-port-file"` |
+| Server listen interface | *-* | `FLUX_OPEN_ID_CONNECT_REST_API_SERVER_LISTEN_INTERFACE`<br>`FLUX_OPEN_ID_CONNECT_REST_API_SERVER_LISTEN_INTERFACE_FILE` | `--server-listen-interface`<br>`--server-listen-interface-file` | `"server-listen-interface"`<br>`"server-listen-interface-file"` |
+| Enable server redirects HTTP to HTTPS | `true` | `FLUX_OPEN_ID_CONNECT_REST_API_SERVER_REDIRECT_HTTP_TO_HTTPS`<br>`FLUX_OPEN_ID_CONNECT_REST_API_SERVER_REDIRECT_HTTP_TO_HTTPS_FILE` | `--server-redirect-http-to-https`<br>`--server-redirect-http-to-https-file` | `"server-redirect-http-to-https"`<br>`"server-redirect-http-to-https-file"` |
+| Server redirect HTTP to HTTPS port | `443` | `FLUX_OPEN_ID_CONNECT_REST_API_SERVER_REDIRECT_HTTP_TO_HTTPS_PORT`<br>`FLUX_OPEN_ID_CONNECT_REST_API_SERVER_REDIRECT_HTTP_TO_HTTPS_PORT_FILE` | `--server-redirect-http-to-https-port`<br>`--server-redirect-http-to-https-port-file` | `"server-redirect-http-to-https-port"`<br>`"server-redirect-http-to-https-port-file"` |
+| HTTP status code server redirects HTTP to HTTPS | `302` | `FLUX_OPEN_ID_CONNECT_REST_API_SERVER_REDIRECT_HTTP_TO_HTTPS_STATUS_CODE`<br>`FLUX_OPEN_ID_CONNECT_REST_API_SERVER_REDIRECT_HTTP_TO_HTTPS_STATUS_CODE_FILE` | `--server-redirect-http-to-https-status-code`<br>`--server-redirect-http-to-https-status-code-file` | `"server-redirect-http-to-https-status-code"`<br>`"server-redirect-http-to-https-status-code-file"` |
 
-| Variable | Description | Default value |
-| -------- | ----------- | ------------- |
-| **FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_URl** | OpenIdConnect server url | *-* |
-| **FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_ID** | OpenIdConnect client id<br>Use *FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_ID_FILE* for docker secrets | *-* |
-| **FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_SECRET** | OpenIdConnect client secret<br>Use *FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_CLIENT_SECRET_FILE* for docker secrets | *-* |
-| **FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_REDIRECT_URI** | OpenIdConnect redirect uri<br>Like `https://%host%/callback` | *-* |
-| FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_SCOPE | OpenIdConnect server scopes | openid profile email |
-| FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_SUPPORTS_PKCE | Whether OpenIdConnect server supports proof key for code exchange<br>Recommended to use this for additional security | true |
-| FLUX_OPEN_ID_CONNECT_REST_API_PROVIDER_TRUST_SELF_SIGNED_CERTIFICATE | If you use a self signed certificate, you need to trust it manually | false |
-| **FLUX_OPEN_ID_CONNECT_REST_API_SESSION_CRYPT_SECRET** | Secret for encrypt the cookie<br>Should be a generated random value<br>Use *FLUX_OPEN_ID_CONNECT_REST_API_SESSION_CRYPT_SECRET_FILE* for docker secrets | *-* |
-| FLUX_OPEN_ID_CONNECT_REST_API_SESSION_CRYPT_METHOD | Algorithm method | aes-256-cbc |
-| FLUX_OPEN_ID_CONNECT_REST_API_SESSION_CRYPT_PLAIN | Bypass encrypt cookie for dev environment | false |
-| FLUX_OPEN_ID_CONNECT_REST_API_ROUTE_AFTER_LOGIN_URL | Url to redirect after login | / |
-| FLUX_OPEN_ID_CONNECT_REST_API_ROUTE_AFTER_LOGOUT_URL | Url to redirect after logout | / |
-| FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_NAME | Cookie name | auth |
-| FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_EXPIRES_IN | Cookie expires in seconds | (Session end) |
-| FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_PATH | Cookie path | / |
-| FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_DOMAIN | Cookie domain | *-* |
-| FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SECURE | Cookie secure | true |
-| FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_HTTP_ONLY | Cookie http only | true |
-| FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_SAME_SITE | Cookie same site<br>Lax, Strict or None | Lax |
-| FLUX_OPEN_ID_CONNECT_REST_API_COOKIE_PRIORITY | Cookie priority<br>Low, Medium or High | Medium |
-| FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_CERT | Path to HTTPS certificate file<br>Set this will enable listen on HTTPS<br>Should be on a volume | *-* |
-| FLUX_OPEN_ID_CONNECT_REST_API_SERVER_HTTPS_KEY | Path to HTTPS key file<br>Should be on a volume | *-* |
-| FLUX_OPEN_ID_CONNECT_REST_API_SERVER_LISTEN | Listen IP | 0.0.0.0 |
-| FLUX_OPEN_ID_CONNECT_REST_API_SERVER_PORT | Listen port | 9501 |
-
-Minimal variables required to set are **bold**
-
-## Example
-
-[examples](examples)
+Required config are **bold**

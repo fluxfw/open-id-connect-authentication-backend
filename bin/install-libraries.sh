@@ -19,4 +19,14 @@ installLibrary() {
 
 checkAlreadyInstalled
 
-installLibrary flux-rest-api https://github.com/fluxfw/flux-rest-api/archive/refs/tags/v2023-02-09-1.tar.gz
+installLibrary flux-authentication-backend-api https://github.com/fluxfw/flux-authentication-backend-api/archive/refs/tags/v2023-02-16-3.tar.gz
+
+installLibrary flux-config-api https://github.com/fluxfw/flux-config-api/archive/refs/tags/v2023-02-09-1.tar.gz
+
+installLibrary flux-hash-api https://github.com/fluxfw/flux-hash-api/archive/refs/tags/v2023-02-09-1.tar.gz
+
+installLibrary flux-http-api https://github.com/fluxfw/flux-http-api/archive/refs/tags/v2023-02-16-1.tar.gz
+
+installLibrary flux-shutdown-handler-api https://github.com/fluxfw/flux-shutdown-handler-api/archive/refs/tags/v2023-02-09-1.tar.gz
+
+installLibrary mime-db https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz
