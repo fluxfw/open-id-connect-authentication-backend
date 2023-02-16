@@ -6,6 +6,12 @@ Changes:
 
 \-
 
+## v2023-02-16-2
+
+Changes:
+
+- Update `flux-authentication-backend-api`
+
 ## v2023-02-16-1
 
 Changes:
