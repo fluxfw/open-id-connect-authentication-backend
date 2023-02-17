@@ -1,6 +1,8 @@
 import { CONFIG_ENV_PREFIX } from "../Config/CONFIG.mjs";
-import { OPEN_ID_CONNECT_CONFIG_BASE_ROUTE_KEY, OPEN_ID_CONNECT_CONFIG_COOKIE_DOMAIN_KEY, OPEN_ID_CONNECT_CONFIG_COOKIE_HTTP_ONLY_KEY, OPEN_ID_CONNECT_CONFIG_COOKIE_KEY_KEY, OPEN_ID_CONNECT_CONFIG_COOKIE_MAX_AGE_KEY, OPEN_ID_CONNECT_CONFIG_COOKIE_NAME_KEY, OPEN_ID_CONNECT_CONFIG_COOKIE_PATH_KEY, OPEN_ID_CONNECT_CONFIG_COOKIE_PRIORITY_KEY, OPEN_ID_CONNECT_CONFIG_COOKIE_SAME_SITE_KEY, OPEN_ID_CONNECT_CONFIG_COOKIE_SECURE_KEY, OPEN_ID_CONNECT_CONFIG_PROVIDER_CERTIFICATE_KEY, OPEN_ID_CONNECT_CONFIG_PROVIDER_CLIENT_ID_KEY, OPEN_ID_CONNECT_CONFIG_PROVIDER_CLIENT_SECRET_KEY, OPEN_ID_CONNECT_CONFIG_PROVIDER_REDIRECT_URI_KEY, OPEN_ID_CONNECT_CONFIG_PROVIDER_SCOPE_KEY, OPEN_ID_CONNECT_CONFIG_PROVIDER_URL_KEY, OPEN_ID_CONNECT_CONFIG_REDIRECT_LOGIN_URL, OPEN_ID_CONNECT_CONFIG_REDIRECT_LOGOUT_URL } from "../OpenIdConnect/OPEN_ID_CONNECT_CONFIG.mjs";
-import { OPEN_ID_CONNECT_DEFAULT_BASE_ROUTE, OPEN_ID_CONNECT_DEFAULT_COOKIE_NAME, OPEN_ID_CONNECT_DEFAULT_PROVIDER_SCOPE, OPEN_ID_CONNECT_DEFAULT_REDIRECT_LOGIN_URL, OPEN_ID_CONNECT_DEFAULT_REDIRECT_LOGOUT_URL } from "../../../../flux-authentication-backend-api/src/Adapter/OpenIdConnect/OPEN_ID_CONNECT.mjs";
+import { COOKIE_CONFIG_DOMAIN_KEY, COOKIE_CONFIG_HTTP_ONLY_KEY, COOKIE_CONFIG_KEY_KEY, COOKIE_CONFIG_MAX_AGE_KEY, COOKIE_CONFIG_NAME_KEY, COOKIE_CONFIG_PATH_KEY, COOKIE_CONFIG_PRIORITY_KEY, COOKIE_CONFIG_SAME_SITE_KEY, COOKIE_CONFIG_SECURE_KEY } from "../Cookie/COOKIE_CONFIG.mjs";
+import { OPEN_ID_CONNECT_DEFAULT_COOKIE_NAME, OPEN_ID_CONNECT_DEFAULT_FRONTEND_BASE_ROUTE, OPEN_ID_CONNECT_DEFAULT_PROVIDER_SCOPE, OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGIN_URL, OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGOUT_URL } from "../../../../flux-authentication-backend-api/src/Adapter/OpenIdConnect/OPEN_ID_CONNECT.mjs";
+import { PROVIDER_CONFIG_CLIENT_ID_KEY, PROVIDER_CONFIG_CLIENT_SECRET_KEY, PROVIDER_CONFIG_HTTPS_CERTIFICATE_KEY, PROVIDER_CONFIG_REDIRECT_URI_KEY, PROVIDER_CONFIG_SCOPE_KEY, PROVIDER_CONFIG_URL_KEY } from "../Provider/PROVIDER_CONFIG.mjs";
+import { ROUTE_CONFIG_FRONTEND_BASE_ROUTE_KEY, ROUTE_CONFIG_REDIRECT_AFTER_LOGIN_URL_KEY, ROUTE_CONFIG_REDIRECT_AFTER_LOGOUT_URL_KEY } from "../Route/ROUTE_CONFIG.mjs";
 import { SERVER_CONFIG_HTTPS_CERTIFICATE_KEY, SERVER_CONFIG_HTTPS_DHPARAM_KEY, SERVER_CONFIG_HTTPS_KEY_KEY, SERVER_CONFIG_LISTEN_HTTP_PORT_KEY, SERVER_CONFIG_LISTEN_HTTPS_PORT_KEY, SERVER_CONFIG_LISTEN_INTERFACE_KEY, SERVER_CONFIG_REDIRECT_HTTP_TO_HTTPS_KEY, SERVER_CONFIG_REDIRECT_HTTP_TO_HTTPS_PORT_KEY, SERVER_CONFIG_REDIRECT_HTTP_TO_HTTPS_STATUS_CODE_KEY } from "../Server/SERVER_CONFIG.mjs";
 import { SERVER_DEFAULT_LISTEN_HTTP_PORT, SERVER_DEFAULT_LISTEN_HTTPS_PORT, SERVER_DEFAULT_REDIRECT_HTTP_TO_HTTPS, SERVER_DEFAULT_REDIRECT_HTTP_TO_HTTPS_PORT, SERVER_DEFAULT_REDIRECT_HTTP_TO_HTTPS_STATUS_CODE } from "../../../../flux-http-api/src/Adapter/Server/SERVER.mjs";
 import { SET_COOKIE_OPTION_DEFAULT_HTTP_ONLY, SET_COOKIE_OPTION_DEFAULT_MAX_AGE, SET_COOKIE_OPTION_DEFAULT_PATH, SET_COOKIE_OPTION_DEFAULT_PRIORITY, SET_COOKIE_OPTION_DEFAULT_SAME_SITE, SET_COOKIE_OPTION_DEFAULT_SECURE, SET_COOKIE_OPTION_DOMAIN, SET_COOKIE_OPTION_HTTP_ONLY, SET_COOKIE_OPTION_MAX_AGE, SET_COOKIE_OPTION_PATH, SET_COOKIE_OPTION_PRIORITY, SET_COOKIE_OPTION_SAME_SITE, SET_COOKIE_OPTION_SECURE } from "../../../../flux-http-api/src/Adapter/Cookie/SET_COOKIE_OPTION.mjs";
@@ -62,6 +64,7 @@ export class OpenIdConnectRestApi {
                 request
             ),
             {
+                forwarded_headers: true,
                 https_certificate: await config_api.getConfig(
                     SERVER_CONFIG_HTTPS_CERTIFICATE_KEY
                 ),
@@ -108,71 +111,72 @@ export class OpenIdConnectRestApi {
             (await import("../../../../flux-authentication-backend-api/src/Adapter/AuthenticationImplementation/OpenIdConnectAuthenticationImplementation.mjs")).OpenIdConnectAuthenticationImplementation.new(
                 await this.#getHttpApi(),
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_PROVIDER_URL_KEY
+                    PROVIDER_CONFIG_URL_KEY
                 ),
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_PROVIDER_CLIENT_ID_KEY
+                    PROVIDER_CONFIG_CLIENT_ID_KEY
                 ),
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_PROVIDER_CLIENT_SECRET_KEY
+                    PROVIDER_CONFIG_CLIENT_SECRET_KEY
                 ),
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_PROVIDER_REDIRECT_URI_KEY
+                    COOKIE_CONFIG_KEY_KEY
                 ),
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_PROVIDER_SCOPE_KEY,
+                    PROVIDER_CONFIG_REDIRECT_URI_KEY
+                ),
+                await config_api.getConfig(
+                    PROVIDER_CONFIG_SCOPE_KEY,
                     OPEN_ID_CONNECT_DEFAULT_PROVIDER_SCOPE
                 ),
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_PROVIDER_CERTIFICATE_KEY
+                    PROVIDER_CONFIG_HTTPS_CERTIFICATE_KEY
                 ),
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_COOKIE_NAME_KEY,
+                    COOKIE_CONFIG_NAME_KEY,
                     OPEN_ID_CONNECT_DEFAULT_COOKIE_NAME
-                ),
-                await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_COOKIE_KEY_KEY
                 ),
                 {
                     [SET_COOKIE_OPTION_DOMAIN]: await config_api.getConfig(
-                        OPEN_ID_CONNECT_CONFIG_COOKIE_DOMAIN_KEY
+                        COOKIE_CONFIG_DOMAIN_KEY
                     ),
                     [SET_COOKIE_OPTION_HTTP_ONLY]: await config_api.getConfig(
-                        OPEN_ID_CONNECT_CONFIG_COOKIE_HTTP_ONLY_KEY,
+                        COOKIE_CONFIG_HTTP_ONLY_KEY,
                         SET_COOKIE_OPTION_DEFAULT_HTTP_ONLY
                     ),
                     [SET_COOKIE_OPTION_MAX_AGE]: await config_api.getConfig(
-                        OPEN_ID_CONNECT_CONFIG_COOKIE_MAX_AGE_KEY,
+                        COOKIE_CONFIG_MAX_AGE_KEY,
                         SET_COOKIE_OPTION_DEFAULT_MAX_AGE
                     ),
                     [SET_COOKIE_OPTION_PATH]: await config_api.getConfig(
-                        OPEN_ID_CONNECT_CONFIG_COOKIE_PATH_KEY,
+                        COOKIE_CONFIG_PATH_KEY,
                         SET_COOKIE_OPTION_DEFAULT_PATH
                     ),
                     [SET_COOKIE_OPTION_PRIORITY]: await config_api.getConfig(
-                        OPEN_ID_CONNECT_CONFIG_COOKIE_PRIORITY_KEY,
+                        COOKIE_CONFIG_PRIORITY_KEY,
                         SET_COOKIE_OPTION_DEFAULT_PRIORITY
                     ),
                     [SET_COOKIE_OPTION_SAME_SITE]: await config_api.getConfig(
-                        OPEN_ID_CONNECT_CONFIG_COOKIE_SAME_SITE_KEY,
+                        COOKIE_CONFIG_SAME_SITE_KEY,
                         SET_COOKIE_OPTION_DEFAULT_SAME_SITE
                     ),
                     [SET_COOKIE_OPTION_SECURE]: await config_api.getConfig(
-                        OPEN_ID_CONNECT_CONFIG_COOKIE_SECURE_KEY,
+                        COOKIE_CONFIG_SECURE_KEY,
                         SET_COOKIE_OPTION_DEFAULT_SECURE
                     )
                 },
+                "/api",
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_BASE_ROUTE_KEY,
-                    OPEN_ID_CONNECT_DEFAULT_BASE_ROUTE
+                    ROUTE_CONFIG_FRONTEND_BASE_ROUTE_KEY,
+                    OPEN_ID_CONNECT_DEFAULT_FRONTEND_BASE_ROUTE
                 ),
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_REDIRECT_LOGIN_URL,
-                    OPEN_ID_CONNECT_DEFAULT_REDIRECT_LOGIN_URL
+                    ROUTE_CONFIG_REDIRECT_AFTER_LOGIN_URL_KEY,
+                    OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGIN_URL
                 ),
                 await config_api.getConfig(
-                    OPEN_ID_CONNECT_CONFIG_REDIRECT_LOGOUT_URL,
-                    OPEN_ID_CONNECT_DEFAULT_REDIRECT_LOGOUT_URL
+                    ROUTE_CONFIG_REDIRECT_AFTER_LOGOUT_URL_KEY,
+                    OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGOUT_URL
                 )
             )
         );
@@ -210,11 +214,7 @@ export class OpenIdConnectRestApi {
     async #getRequestService() {
         this.#request_service ??= (await import("../../Service/Request/Port/RequestService.mjs")).RequestService.new(
             await this.#getAuthenticationBackendApi(),
-            await this.#getHttpApi(),
-            await (await this.#getConfigApi()).getConfig(
-                OPEN_ID_CONNECT_CONFIG_BASE_ROUTE_KEY,
-                OPEN_ID_CONNECT_DEFAULT_BASE_ROUTE
-            )
+            await this.#getHttpApi()
         );
 
         return this.#request_service;

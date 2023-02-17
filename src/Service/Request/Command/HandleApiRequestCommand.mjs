@@ -1,9 +1,11 @@
+import { HttpServerResponse } from "../../../../../flux-http-api/src/Adapter/Server/HttpServerResponse.mjs";
+import { METHOD_GET, METHOD_HEAD, METHOD_OPTIONS } from "../../../../../flux-http-api/src/Adapter/Method/METHOD.mjs";
+
 /** @typedef {import("../../../../../flux-authentication-backend-api/src/Adapter/Api/AuthenticationBackendApi.mjs").AuthenticationBackendApi} AuthenticationBackendApi */
 /** @typedef {import("../../../../../flux-http-api/src/Adapter/Api/HttpApi.mjs").HttpApi} HttpApi */
 /** @typedef {import("../../../../../flux-http-api/src/Adapter/Server/HttpServerRequest.mjs").HttpServerRequest} HttpServerRequest */
-/** @typedef {import("../../../../../flux-http-api/src/Adapter/Server/HttpServerResponse.mjs").HttpServerResponse} HttpServerResponse */
 
-export class RequestService {
+export class HandleApiRequestCommand {
     /**
      * @type {AuthenticationBackendApi}
      */
@@ -16,7 +18,7 @@ export class RequestService {
     /**
      * @param {AuthenticationBackendApi} authentication_backend_api
      * @param {HttpApi} http_api
-     * @returns {RequestService}
+     * @returns {HandleApiRequestCommand}
      */
     static new(authentication_backend_api, http_api) {
         return new this(
@@ -40,25 +42,33 @@ export class RequestService {
      * @returns {HttpServerResponse | null}
      */
     async handleApiRequest(request) {
-        return (await import("../Command/HandleApiRequestCommand.mjs")).HandleApiRequestCommand.new(
-            this.#authentication_backend_api,
-            this.#http_api
-        )
-            .handleApiRequest(
-                request
-            );
-    }
+        const response = await this.#authentication_backend_api.handleAuthentication(
+            request
+        );
 
-    /**
-     * @param {HttpServerRequest} request
-     * @returns {HttpServerResponse | null}
-     */
-    async handleRequest(request) {
-        return (await import("../Command/HandleRequestCommand.mjs")).HandleRequestCommand.new(
-            this
-        )
-            .handleRequest(
-                request
+        if (response !== null) {
+            return response;
+        }
+
+        if (request.url.pathname === "/api/user-infos") {
+            const _response = await this.#http_api.validateMethods(
+                request,
+                [
+                    METHOD_GET,
+                    METHOD_HEAD,
+                    METHOD_OPTIONS
+                ]
             );
+
+            if (_response !== null) {
+                return _response;
+            }
+
+            return HttpServerResponse.json(
+                request._user_infos
+            );
+        }
+
+        return null;
     }
 }
