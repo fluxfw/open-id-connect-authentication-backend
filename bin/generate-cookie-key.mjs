@@ -4,10 +4,11 @@ try {
     shutdown_handler = await (await import("../../flux-shutdown-handler-api/src/Adapter/Api/ShutdownHandlerApi.mjs")).ShutdownHandlerApi.new()
         .getShutdownHandler();
 
-    await (await import("../src/Adapter/Api/OpenIdConnectAuthenticationBackendApi.mjs")).OpenIdConnectAuthenticationBackendApi.new(
+    process.stdout.write(`${await (await import("../src/Adapter/Api/OpenIdConnectAuthenticationBackendApi.mjs")).OpenIdConnectAuthenticationBackendApi.new(
         shutdown_handler
     )
-        .runServer();
+        .generateCookieKey()}
+`);
 } catch (error) {
     console.error(error);
 

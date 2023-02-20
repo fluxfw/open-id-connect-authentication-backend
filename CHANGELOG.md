@@ -6,6 +6,13 @@ Changes:
 
 \-
 
+## v2023-02-20-1
+
+Changes:
+
+- Rename to `flux-open-id-connect-authentication-backend`
+- `generate-cookie-key`
+
 ## v2023-02-17-1
 
 Changes:

@@ -10,14 +10,19 @@ import { SET_COOKIE_OPTION_DEFAULT_HTTP_ONLY, SET_COOKIE_OPTION_DEFAULT_MAX_AGE,
 /** @typedef {import("../../../../flux-authentication-backend-api/src/Adapter/Api/AuthenticationBackendApi.mjs").AuthenticationBackendApi} AuthenticationBackendApi */
 /** @typedef {import("../../../../flux-config-api/src/Adapter/Api/ConfigApi.mjs").ConfigApi} ConfigApi */
 /** @typedef {import("../../../../flux-http-api/src/Adapter/Api/HttpApi.mjs").HttpApi} HttpApi */
+/** @typedef {import("../../../../flux-authentication-backend-api/src/Adapter/AuthenticationImplementation/OpenIdConnectAuthenticationImplementation.mjs").OpenIdConnectAuthenticationImplementation} OpenIdConnectAuthenticationImplementation */
 /** @typedef {import("../../Service/Request/Port/RequestService.mjs").RequestService} RequestService */
 /** @typedef {import("../../../../flux-shutdown-handler-api/src/Adapter/ShutdownHandler/ShutdownHandler.mjs").ShutdownHandler} ShutdownHandler */
 
-export class OpenIdConnectRestApi {
+export class OpenIdConnectAuthenticationBackendApi {
     /**
      * @type {AuthenticationBackendApi | null}
      */
     #authentication_backend_api = null;
+    /**
+     * @type {OpenIdConnectAuthenticationImplementation | null}
+     */
+    #authentication_implementation = null;
     /**
      * @type {ConfigApi | null}
      */
@@ -37,7 +42,7 @@ export class OpenIdConnectRestApi {
 
     /**
      * @param {ShutdownHandler} shutdown_handler
-     * @returns {OpenIdConnectRestApi}
+     * @returns {OpenIdConnectAuthenticationBackendApi}
      */
     static new(shutdown_handler) {
         return new this(
@@ -51,6 +56,13 @@ export class OpenIdConnectRestApi {
      */
     constructor(shutdown_handler) {
         this.#shutdown_handler = shutdown_handler;
+    }
+
+    /**
+     * @returns {Promise<string>}
+     */
+    async generateCookieKey() {
+        return (await this.#getAuthenticationImplementation()).generateCookieKey();
     }
 
     /**
@@ -105,83 +117,92 @@ export class OpenIdConnectRestApi {
      * @returns {Promise<AuthenticationBackendApi>}
      */
     async #getAuthenticationBackendApi() {
-        const config_api = await this.#getConfigApi();
-
         this.#authentication_backend_api ??= (await import("../../../../flux-authentication-backend-api/src/Adapter/Api/AuthenticationBackendApi.mjs")).AuthenticationBackendApi.new(
-            (await import("../../../../flux-authentication-backend-api/src/Adapter/AuthenticationImplementation/OpenIdConnectAuthenticationImplementation.mjs")).OpenIdConnectAuthenticationImplementation.new(
-                await this.#getHttpApi(),
-                await config_api.getConfig(
-                    PROVIDER_CONFIG_URL_KEY
-                ),
-                await config_api.getConfig(
-                    PROVIDER_CONFIG_CLIENT_ID_KEY
-                ),
-                await config_api.getConfig(
-                    PROVIDER_CONFIG_CLIENT_SECRET_KEY
-                ),
-                await config_api.getConfig(
-                    COOKIE_CONFIG_KEY_KEY
-                ),
-                await config_api.getConfig(
-                    PROVIDER_CONFIG_REDIRECT_URI_KEY
-                ),
-                await config_api.getConfig(
-                    PROVIDER_CONFIG_SCOPE_KEY,
-                    OPEN_ID_CONNECT_DEFAULT_PROVIDER_SCOPE
-                ),
-                await config_api.getConfig(
-                    PROVIDER_CONFIG_HTTPS_CERTIFICATE_KEY
-                ),
-                await config_api.getConfig(
-                    COOKIE_CONFIG_NAME_KEY,
-                    OPEN_ID_CONNECT_DEFAULT_COOKIE_NAME
-                ),
-                {
-                    [SET_COOKIE_OPTION_DOMAIN]: await config_api.getConfig(
-                        COOKIE_CONFIG_DOMAIN_KEY
-                    ),
-                    [SET_COOKIE_OPTION_HTTP_ONLY]: await config_api.getConfig(
-                        COOKIE_CONFIG_HTTP_ONLY_KEY,
-                        SET_COOKIE_OPTION_DEFAULT_HTTP_ONLY
-                    ),
-                    [SET_COOKIE_OPTION_MAX_AGE]: await config_api.getConfig(
-                        COOKIE_CONFIG_MAX_AGE_KEY,
-                        SET_COOKIE_OPTION_DEFAULT_MAX_AGE
-                    ),
-                    [SET_COOKIE_OPTION_PATH]: await config_api.getConfig(
-                        COOKIE_CONFIG_PATH_KEY,
-                        SET_COOKIE_OPTION_DEFAULT_PATH
-                    ),
-                    [SET_COOKIE_OPTION_PRIORITY]: await config_api.getConfig(
-                        COOKIE_CONFIG_PRIORITY_KEY,
-                        SET_COOKIE_OPTION_DEFAULT_PRIORITY
-                    ),
-                    [SET_COOKIE_OPTION_SAME_SITE]: await config_api.getConfig(
-                        COOKIE_CONFIG_SAME_SITE_KEY,
-                        SET_COOKIE_OPTION_DEFAULT_SAME_SITE
-                    ),
-                    [SET_COOKIE_OPTION_SECURE]: await config_api.getConfig(
-                        COOKIE_CONFIG_SECURE_KEY,
-                        SET_COOKIE_OPTION_DEFAULT_SECURE
-                    )
-                },
-                "/api",
-                await config_api.getConfig(
-                    ROUTE_CONFIG_FRONTEND_BASE_ROUTE_KEY,
-                    OPEN_ID_CONNECT_DEFAULT_FRONTEND_BASE_ROUTE
-                ),
-                await config_api.getConfig(
-                    ROUTE_CONFIG_REDIRECT_AFTER_LOGIN_URL_KEY,
-                    OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGIN_URL
-                ),
-                await config_api.getConfig(
-                    ROUTE_CONFIG_REDIRECT_AFTER_LOGOUT_URL_KEY,
-                    OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGOUT_URL
-                )
-            )
+            await this.#getAuthenticationImplementation()
         );
 
         return this.#authentication_backend_api;
+    }
+
+    /**
+     * @returns {Promise<OpenIdConnectAuthenticationImplementation>}
+     */
+    async #getAuthenticationImplementation() {
+        const config_api = await this.#getConfigApi();
+
+        this.#authentication_implementation ??= (await import("../../../../flux-authentication-backend-api/src/Adapter/AuthenticationImplementation/OpenIdConnectAuthenticationImplementation.mjs")).OpenIdConnectAuthenticationImplementation.new(
+            await this.#getHttpApi(),
+            await config_api.getConfig(
+                PROVIDER_CONFIG_URL_KEY
+            ),
+            await config_api.getConfig(
+                PROVIDER_CONFIG_CLIENT_ID_KEY
+            ),
+            await config_api.getConfig(
+                PROVIDER_CONFIG_CLIENT_SECRET_KEY
+            ),
+            await config_api.getConfig(
+                COOKIE_CONFIG_KEY_KEY
+            ),
+            await config_api.getConfig(
+                PROVIDER_CONFIG_REDIRECT_URI_KEY
+            ),
+            await config_api.getConfig(
+                PROVIDER_CONFIG_SCOPE_KEY,
+                OPEN_ID_CONNECT_DEFAULT_PROVIDER_SCOPE
+            ),
+            await config_api.getConfig(
+                PROVIDER_CONFIG_HTTPS_CERTIFICATE_KEY
+            ),
+            await config_api.getConfig(
+                COOKIE_CONFIG_NAME_KEY,
+                OPEN_ID_CONNECT_DEFAULT_COOKIE_NAME
+            ),
+            {
+                [SET_COOKIE_OPTION_DOMAIN]: await config_api.getConfig(
+                    COOKIE_CONFIG_DOMAIN_KEY
+                ),
+                [SET_COOKIE_OPTION_HTTP_ONLY]: await config_api.getConfig(
+                    COOKIE_CONFIG_HTTP_ONLY_KEY,
+                    SET_COOKIE_OPTION_DEFAULT_HTTP_ONLY
+                ),
+                [SET_COOKIE_OPTION_MAX_AGE]: await config_api.getConfig(
+                    COOKIE_CONFIG_MAX_AGE_KEY,
+                    SET_COOKIE_OPTION_DEFAULT_MAX_AGE
+                ),
+                [SET_COOKIE_OPTION_PATH]: await config_api.getConfig(
+                    COOKIE_CONFIG_PATH_KEY,
+                    SET_COOKIE_OPTION_DEFAULT_PATH
+                ),
+                [SET_COOKIE_OPTION_PRIORITY]: await config_api.getConfig(
+                    COOKIE_CONFIG_PRIORITY_KEY,
+                    SET_COOKIE_OPTION_DEFAULT_PRIORITY
+                ),
+                [SET_COOKIE_OPTION_SAME_SITE]: await config_api.getConfig(
+                    COOKIE_CONFIG_SAME_SITE_KEY,
+                    SET_COOKIE_OPTION_DEFAULT_SAME_SITE
+                ),
+                [SET_COOKIE_OPTION_SECURE]: await config_api.getConfig(
+                    COOKIE_CONFIG_SECURE_KEY,
+                    SET_COOKIE_OPTION_DEFAULT_SECURE
+                )
+            },
+            "/api",
+            await config_api.getConfig(
+                ROUTE_CONFIG_FRONTEND_BASE_ROUTE_KEY,
+                OPEN_ID_CONNECT_DEFAULT_FRONTEND_BASE_ROUTE
+            ),
+            await config_api.getConfig(
+                ROUTE_CONFIG_REDIRECT_AFTER_LOGIN_URL_KEY,
+                OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGIN_URL
+            ),
+            await config_api.getConfig(
+                ROUTE_CONFIG_REDIRECT_AFTER_LOGOUT_URL_KEY,
+                OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGOUT_URL
+            )
+        );
+
+        return this.#authentication_implementation;
     }
 
     /**
