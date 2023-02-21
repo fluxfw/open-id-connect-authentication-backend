@@ -42,16 +42,16 @@ export class HandleApiRequestCommand {
      * @returns {HttpServerResponse | null}
      */
     async handleApiRequest(request) {
-        const response = await this.#authentication_backend_api.handleAuthentication(
+        const user_infos = await this.#authentication_backend_api.handleAuthentication(
             request
         );
 
-        if (response !== null) {
-            return response;
+        if (user_infos instanceof HttpServerResponse) {
+            return user_infos;
         }
 
         if (request.url.pathname === "/api/user-infos") {
-            const _response = await this.#http_api.validateMethods(
+            const response = await this.#http_api.validateMethods(
                 request,
                 [
                     METHOD_GET,
@@ -60,12 +60,12 @@ export class HandleApiRequestCommand {
                 ]
             );
 
-            if (_response !== null) {
-                return _response;
+            if (response !== null) {
+                return response;
             }
 
             return HttpServerResponse.json(
-                request._user_infos
+                user_infos
             );
         }
 
