@@ -1,5 +1,4 @@
 *
-!bin/generate-cookie-key.mjs
 !bin/install-libraries.sh
 !bin/server.mjs
 !src
