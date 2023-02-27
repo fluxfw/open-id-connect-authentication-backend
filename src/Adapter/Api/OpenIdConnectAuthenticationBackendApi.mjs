@@ -121,72 +121,74 @@ export class OpenIdConnectAuthenticationBackendApi {
      * @returns {Promise<OpenIdConnectAuthenticationImplementation>}
      */
     async #getAuthenticationImplementation() {
-        const config_api = await this.#getConfigApi();
+        if (this.#authentication_implementation === null) {
+            const config_api = await this.#getConfigApi();
 
-        this.#authentication_implementation ??= (await import("../../../../flux-authentication-backend-api/src/Adapter/AuthenticationImplementation/OpenIdConnectAuthenticationImplementation.mjs")).OpenIdConnectAuthenticationImplementation.new(
-            await this.#getHttpApi(),
-            await config_api.getConfig(
-                PROVIDER_CONFIG_URL_KEY
-            ),
-            await config_api.getConfig(
-                PROVIDER_CONFIG_CLIENT_ID_KEY
-            ),
-            await config_api.getConfig(
-                PROVIDER_CONFIG_CLIENT_SECRET_KEY
-            ),
-            await config_api.getConfig(
-                PROVIDER_CONFIG_REDIRECT_URI_KEY
-            ),
-            await config_api.getConfig(
-                PROVIDER_CONFIG_SCOPE_KEY,
-                OPEN_ID_CONNECT_DEFAULT_PROVIDER_SCOPE
-            ),
-            await config_api.getConfig(
-                PROVIDER_CONFIG_HTTPS_CERTIFICATE_KEY
-            ),
-            await config_api.getConfig(
-                COOKIE_CONFIG_NAME_KEY,
-                OPEN_ID_CONNECT_DEFAULT_COOKIE_NAME
-            ),
-            {
-                [SET_COOKIE_OPTION_DOMAIN]: await config_api.getConfig(
-                    COOKIE_CONFIG_DOMAIN_KEY
+            this.#authentication_implementation ??= (await import("../../../../flux-authentication-backend-api/src/Adapter/AuthenticationImplementation/OpenIdConnectAuthenticationImplementation.mjs")).OpenIdConnectAuthenticationImplementation.new(
+                await this.#getHttpApi(),
+                await config_api.getConfig(
+                    PROVIDER_CONFIG_URL_KEY
                 ),
-                [SET_COOKIE_OPTION_HTTP_ONLY]: await config_api.getConfig(
-                    COOKIE_CONFIG_HTTP_ONLY_KEY,
-                    SET_COOKIE_OPTION_DEFAULT_HTTP_ONLY
+                await config_api.getConfig(
+                    PROVIDER_CONFIG_CLIENT_ID_KEY
                 ),
-                [SET_COOKIE_OPTION_PATH]: await config_api.getConfig(
-                    COOKIE_CONFIG_PATH_KEY,
-                    SET_COOKIE_OPTION_DEFAULT_PATH
+                await config_api.getConfig(
+                    PROVIDER_CONFIG_CLIENT_SECRET_KEY
                 ),
-                [SET_COOKIE_OPTION_PRIORITY]: await config_api.getConfig(
-                    COOKIE_CONFIG_PRIORITY_KEY,
-                    SET_COOKIE_OPTION_DEFAULT_PRIORITY
+                await config_api.getConfig(
+                    PROVIDER_CONFIG_REDIRECT_URI_KEY
                 ),
-                [SET_COOKIE_OPTION_SAME_SITE]: await config_api.getConfig(
-                    COOKIE_CONFIG_SAME_SITE_KEY,
-                    SET_COOKIE_OPTION_DEFAULT_SAME_SITE
+                await config_api.getConfig(
+                    PROVIDER_CONFIG_SCOPE_KEY,
+                    OPEN_ID_CONNECT_DEFAULT_PROVIDER_SCOPE
                 ),
-                [SET_COOKIE_OPTION_SECURE]: await config_api.getConfig(
-                    COOKIE_CONFIG_SECURE_KEY,
-                    SET_COOKIE_OPTION_DEFAULT_SECURE
+                await config_api.getConfig(
+                    PROVIDER_CONFIG_HTTPS_CERTIFICATE_KEY
+                ),
+                await config_api.getConfig(
+                    COOKIE_CONFIG_NAME_KEY,
+                    OPEN_ID_CONNECT_DEFAULT_COOKIE_NAME
+                ),
+                {
+                    [SET_COOKIE_OPTION_DOMAIN]: await config_api.getConfig(
+                        COOKIE_CONFIG_DOMAIN_KEY
+                    ),
+                    [SET_COOKIE_OPTION_HTTP_ONLY]: await config_api.getConfig(
+                        COOKIE_CONFIG_HTTP_ONLY_KEY,
+                        SET_COOKIE_OPTION_DEFAULT_HTTP_ONLY
+                    ),
+                    [SET_COOKIE_OPTION_PATH]: await config_api.getConfig(
+                        COOKIE_CONFIG_PATH_KEY,
+                        SET_COOKIE_OPTION_DEFAULT_PATH
+                    ),
+                    [SET_COOKIE_OPTION_PRIORITY]: await config_api.getConfig(
+                        COOKIE_CONFIG_PRIORITY_KEY,
+                        SET_COOKIE_OPTION_DEFAULT_PRIORITY
+                    ),
+                    [SET_COOKIE_OPTION_SAME_SITE]: await config_api.getConfig(
+                        COOKIE_CONFIG_SAME_SITE_KEY,
+                        SET_COOKIE_OPTION_DEFAULT_SAME_SITE
+                    ),
+                    [SET_COOKIE_OPTION_SECURE]: await config_api.getConfig(
+                        COOKIE_CONFIG_SECURE_KEY,
+                        SET_COOKIE_OPTION_DEFAULT_SECURE
+                    )
+                },
+                "/api",
+                await config_api.getConfig(
+                    ROUTE_CONFIG_FRONTEND_BASE_ROUTE_KEY,
+                    OPEN_ID_CONNECT_DEFAULT_FRONTEND_BASE_ROUTE
+                ),
+                await config_api.getConfig(
+                    ROUTE_CONFIG_REDIRECT_AFTER_LOGIN_URL_KEY,
+                    OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGIN_URL
+                ),
+                await config_api.getConfig(
+                    ROUTE_CONFIG_REDIRECT_AFTER_LOGOUT_URL_KEY,
+                    OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGOUT_URL
                 )
-            },
-            "/api",
-            await config_api.getConfig(
-                ROUTE_CONFIG_FRONTEND_BASE_ROUTE_KEY,
-                OPEN_ID_CONNECT_DEFAULT_FRONTEND_BASE_ROUTE
-            ),
-            await config_api.getConfig(
-                ROUTE_CONFIG_REDIRECT_AFTER_LOGIN_URL_KEY,
-                OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGIN_URL
-            ),
-            await config_api.getConfig(
-                ROUTE_CONFIG_REDIRECT_AFTER_LOGOUT_URL_KEY,
-                OPEN_ID_CONNECT_DEFAULT_REDIRECT_AFTER_LOGOUT_URL
-            )
-        );
+            );
+        }
 
         return this.#authentication_implementation;
     }
