@@ -1,5 +1,7 @@
 # flux-open-id-connect-authentication-backend
 
+Open id connect authentication backend
+
 ## Config
 
 | Config | Default value | Environment variable | Cli parameter | Config JSON file |
