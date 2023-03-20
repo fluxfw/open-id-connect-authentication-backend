@@ -11,7 +11,6 @@ import { SET_COOKIE_OPTION_DEFAULT_HTTP_ONLY, SET_COOKIE_OPTION_DEFAULT_PATH, SE
 /** @typedef {import("../../flux-config-api/src/FluxConfigApi.mjs").FluxConfigApi} FluxConfigApi */
 /** @typedef {import("../../flux-http-api/src/FluxHttpApi.mjs").FluxHttpApi} FluxHttpApi */
 /** @typedef {import("../../flux-shutdown-handler/src/FluxShutdownHandler.mjs").FluxShutdownHandler} FluxShutdownHandler */
-/** @typedef {import("./Request/Port/RequestService.mjs").RequestService} RequestService */
 
 export class FluxOpenIdConnectAuthenticationBackend {
     /**
@@ -30,10 +29,6 @@ export class FluxOpenIdConnectAuthenticationBackend {
      * @type {FluxShutdownHandler}
      */
     #flux_shutdown_handler;
-    /**
-     * @type {RequestService | null}
-     */
-    #request_service = null;
 
     /**
      * @param {FluxShutdownHandler} flux_shutdown_handler
@@ -60,9 +55,13 @@ export class FluxOpenIdConnectAuthenticationBackend {
         const flux_config_api = await this.#getFluxConfigApi();
 
         await (await this.#getFluxHttpApi()).runServer(
-            async request => (await this.#getRequestService()).handleRequest(
-                request
-            ),
+            async request => (await import("./Request/HandleRequest.mjs")).HandleRequest.new(
+                await this.#getFluxAuthenticationBackend(),
+                await this.#getFluxHttpApi()
+            )
+                .handleRequest(
+                    request
+                ),
             {
                 forwarded_headers: true,
                 https_certificate: await flux_config_api.getConfig(
@@ -199,17 +198,5 @@ export class FluxOpenIdConnectAuthenticationBackend {
         );
 
         return this.#flux_http_api;
-    }
-
-    /**
-     * @returns {Promise<RequestService>}
-     */
-    async #getRequestService() {
-        this.#request_service ??= (await import("./Request/Port/RequestService.mjs")).RequestService.new(
-            await this.#getFluxAuthenticationBackend(),
-            await this.#getFluxHttpApi()
-        );
-
-        return this.#request_service;
     }
 }

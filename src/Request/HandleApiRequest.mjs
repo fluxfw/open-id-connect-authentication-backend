@@ -1,11 +1,11 @@
-import { HttpServerResponse } from "../../../../flux-http-api/src/Server/HttpServerResponse.mjs";
-import { METHOD_GET, METHOD_HEAD, METHOD_OPTIONS } from "../../../../flux-http-api/src/Method/METHOD.mjs";
+import { HttpServerResponse } from "../../../flux-http-api/src/Server/HttpServerResponse.mjs";
+import { METHOD_GET, METHOD_HEAD, METHOD_OPTIONS } from "../../../flux-http-api/src/Method/METHOD.mjs";
 
-/** @typedef {import("../../../../flux-authentication-backend/src/FluxAuthenticationBackend.mjs").FluxAuthenticationBackend} FluxAuthenticationBackend */
-/** @typedef {import("../../../../flux-http-api/src/FluxHttpApi.mjs").FluxHttpApi} FluxHttpApi */
-/** @typedef {import("../../../../flux-http-api/src/Server/HttpServerRequest.mjs").HttpServerRequest} HttpServerRequest */
+/** @typedef {import("../../../flux-authentication-backend/src/FluxAuthenticationBackend.mjs").FluxAuthenticationBackend} FluxAuthenticationBackend */
+/** @typedef {import("../../../flux-http-api/src/FluxHttpApi.mjs").FluxHttpApi} FluxHttpApi */
+/** @typedef {import("../../../flux-http-api/src/Server/HttpServerRequest.mjs").HttpServerRequest} HttpServerRequest */
 
-export class HandleApiRequestCommand {
+export class HandleApiRequest {
     /**
      * @type {FluxAuthenticationBackend}
      */
@@ -18,7 +18,7 @@ export class HandleApiRequestCommand {
     /**
      * @param {FluxAuthenticationBackend} flux_authentication_backend
      * @param {FluxHttpApi} flux_http_api
-     * @returns {HandleApiRequestCommand}
+     * @returns {HandleApiRequest}
      */
     static new(flux_authentication_backend, flux_http_api) {
         return new this(
