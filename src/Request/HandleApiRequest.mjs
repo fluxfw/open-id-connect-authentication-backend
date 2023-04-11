@@ -39,7 +39,7 @@ export class HandleApiRequest {
 
     /**
      * @param {HttpServerRequest} request
-     * @returns {HttpServerResponse | null}
+     * @returns {Promise<HttpServerResponse | null>}
      */
     async handleApiRequest(request) {
         const user_infos = await this.#flux_authentication_backend.handleAuthentication(
