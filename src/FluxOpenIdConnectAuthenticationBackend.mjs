@@ -65,13 +65,19 @@ export class FluxOpenIdConnectAuthenticationBackend {
             {
                 forwarded_headers: true,
                 https_certificate: await flux_config_api.getConfig(
-                    SERVER_CONFIG_HTTPS_CERTIFICATE_KEY
+                    SERVER_CONFIG_HTTPS_CERTIFICATE_KEY,
+                    null,
+                    false
                 ),
                 https_dhparam: await flux_config_api.getConfig(
-                    SERVER_CONFIG_HTTPS_DHPARAM_KEY
+                    SERVER_CONFIG_HTTPS_DHPARAM_KEY,
+                    null,
+                    false
                 ),
                 https_key: await flux_config_api.getConfig(
-                    SERVER_CONFIG_HTTPS_KEY_KEY
+                    SERVER_CONFIG_HTTPS_KEY_KEY,
+                    null,
+                    false
                 ),
                 listen_http_port: await flux_config_api.getConfig(
                     SERVER_CONFIG_LISTEN_HTTP_PORT_KEY,
@@ -82,7 +88,9 @@ export class FluxOpenIdConnectAuthenticationBackend {
                     SERVER_DEFAULT_LISTEN_HTTPS_PORT
                 ),
                 listen_interface: await flux_config_api.getConfig(
-                    SERVER_CONFIG_LISTEN_INTERFACE_KEY
+                    SERVER_CONFIG_LISTEN_INTERFACE_KEY,
+                    null,
+                    false
                 ),
                 redirect_http_to_https: await flux_config_api.getConfig(
                     SERVER_CONFIG_REDIRECT_HTTP_TO_HTTPS_KEY,
@@ -119,14 +127,18 @@ export class FluxOpenIdConnectAuthenticationBackend {
                     PROVIDER_CONFIG_CLIENT_SECRET_KEY
                 ),
                 await flux_config_api.getConfig(
-                    PROVIDER_CONFIG_REDIRECT_URI_KEY
+                    PROVIDER_CONFIG_REDIRECT_URI_KEY,
+                    null,
+                    false
                 ),
                 await flux_config_api.getConfig(
                     PROVIDER_CONFIG_SCOPE_KEY,
                     FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_DEFAULT_PROVIDER_SCOPE
                 ),
                 await flux_config_api.getConfig(
-                    PROVIDER_CONFIG_HTTPS_CERTIFICATE_KEY
+                    PROVIDER_CONFIG_HTTPS_CERTIFICATE_KEY,
+                    null,
+                    false
                 ),
                 await flux_config_api.getConfig(
                     COOKIE_CONFIG_NAME_KEY,
@@ -134,7 +146,9 @@ export class FluxOpenIdConnectAuthenticationBackend {
                 ),
                 {
                     [SET_COOKIE_OPTION_DOMAIN]: await flux_config_api.getConfig(
-                        COOKIE_CONFIG_DOMAIN_KEY
+                        COOKIE_CONFIG_DOMAIN_KEY,
+                        null,
+                        false
                     ),
                     [SET_COOKIE_OPTION_HTTP_ONLY]: await flux_config_api.getConfig(
                         COOKIE_CONFIG_HTTP_ONLY_KEY,
