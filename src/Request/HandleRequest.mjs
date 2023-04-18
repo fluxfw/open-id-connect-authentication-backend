@@ -1,7 +1,8 @@
+import { HttpServerResponse } from "../../../flux-http-api/src/Server/HttpServerResponse.mjs";
+
 /** @typedef {import("../../../flux-authentication-backend/src/FluxAuthenticationBackend.mjs").FluxAuthenticationBackend} FluxAuthenticationBackend */
 /** @typedef {import("../../../flux-http-api/src/FluxHttpApi.mjs").FluxHttpApi} FluxHttpApi */
 /** @typedef {import("../../../flux-http-api/src/Server/HttpServerRequest.mjs").HttpServerRequest} HttpServerRequest */
-/** @typedef {import("../../../flux-http-api/src/Server/HttpServerResponse.mjs").HttpServerResponse} HttpServerResponse */
 
 export class HandleRequest {
     /**
@@ -40,13 +41,21 @@ export class HandleRequest {
      * @returns {Promise<HttpServerResponse | null>}
      */
     async handleRequest(request) {
+        const user_infos = await this.#flux_authentication_backend.handleAuthentication(
+            request
+        );
+
+        if (user_infos instanceof HttpServerResponse) {
+            return user_infos;
+        }
+
         if (request.url.pathname.startsWith("/api/") || request.url.pathname === "/api") {
             return (await import("./HandleApiRequest.mjs")).HandleApiRequest.new(
-                this.#flux_authentication_backend,
                 this.#flux_http_api
             )
                 .handleApiRequest(
-                    request
+                    request,
+                    user_infos
                 );
         }
 
