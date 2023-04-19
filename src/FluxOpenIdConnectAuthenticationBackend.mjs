@@ -1,4 +1,5 @@
 import { CONFIG_ENV_PREFIX } from "./Config/CONFIG.mjs";
+import { AUTHENTICATION_CONFIG_DEFAULT_USER, AUTHENTICATION_CONFIG_PASSWORD_KEY, AUTHENTICATION_CONFIG_USER_KEY } from "./Authentication/AUTHENTICATION_CONFIG.mjs";
 import { COOKIE_CONFIG_DOMAIN_KEY, COOKIE_CONFIG_HTTP_ONLY_KEY, COOKIE_CONFIG_NAME_KEY, COOKIE_CONFIG_PATH_KEY, COOKIE_CONFIG_PRIORITY_KEY, COOKIE_CONFIG_SAME_SITE_KEY, COOKIE_CONFIG_SECURE_KEY } from "./Cookie/COOKIE_CONFIG.mjs";
 import { FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_DEFAULT_COOKIE_NAME, FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_DEFAULT_FRONTEND_BASE_ROUTE, FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_DEFAULT_PROVIDER_SCOPE, FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_DEFAULT_REDIRECT_AFTER_LOGIN_URL, FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_DEFAULT_REDIRECT_AFTER_LOGOUT_URL } from "../../flux-authentication-backend/src/FluxOpenIdConnectAuthenticationBackend/FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND.mjs";
 import { PROVIDER_CONFIG_CLIENT_ID_KEY, PROVIDER_CONFIG_CLIENT_SECRET_KEY, PROVIDER_CONFIG_HTTPS_CERTIFICATE_KEY, PROVIDER_CONFIG_REDIRECT_URI_KEY, PROVIDER_CONFIG_SCOPE_KEY, PROVIDER_CONFIG_URL_KEY } from "./Provider/PROVIDER_CONFIG.mjs";
@@ -25,6 +26,10 @@ export class FluxOpenIdConnectAuthenticationBackend {
      * @type {FluxHttpApi | null}
      */
     #flux_http_api = null;
+    /**
+     * @type {FluxAuthenticationBackend | null}
+     */
+    #flux_open_id_connect_authentication_backend = null;
     /**
      * @type {FluxShutdownHandler}
      */
@@ -57,7 +62,8 @@ export class FluxOpenIdConnectAuthenticationBackend {
         await (await this.#getFluxHttpApi()).runServer(
             async request => (await import("./Request/HandleRequest.mjs")).HandleRequest.new(
                 await this.#getFluxAuthenticationBackend(),
-                await this.#getFluxHttpApi()
+                await this.#getFluxHttpApi(),
+                await this.#getFluxOpenIdConnectAuthenticationBackend()
             )
                 .handleRequest(
                     request
@@ -115,7 +121,54 @@ export class FluxOpenIdConnectAuthenticationBackend {
         if (this.#flux_authentication_backend === null) {
             const flux_config_api = await this.#getFluxConfigApi();
 
-            this.#flux_authentication_backend ??= (await import("../../flux-authentication-backend/src/FluxOpenIdConnectAuthenticationBackend/FluxOpenIdConnectAuthenticationBackend.mjs")).FluxOpenIdConnectAuthenticationBackend.new(
+            this.#flux_authentication_backend ??= (await import("../../flux-authentication-backend/src/FluxBasicAuthenticationBackend.mjs")).FluxBasicAuthenticationBackend.new(
+                await this.#getFluxHttpApi(),
+                {
+                    [await flux_config_api.getConfig(
+                        AUTHENTICATION_CONFIG_USER_KEY,
+                        AUTHENTICATION_CONFIG_DEFAULT_USER
+                    )]: await flux_config_api.getConfig(
+                        AUTHENTICATION_CONFIG_PASSWORD_KEY
+                    )
+                }
+            );
+        }
+
+        return this.#flux_authentication_backend;
+    }
+
+    /**
+     * @returns {Promise<FluxConfigApi>}
+     */
+    async #getFluxConfigApi() {
+        this.#flux_config_api ??= (await import("../../flux-config-api/src/FluxConfigApi.mjs")).FluxConfigApi.new(
+            await (await import("../../flux-config-api/src/getValueProviderImplementations.mjs")).getValueProviderImplementations(
+                CONFIG_ENV_PREFIX
+            )
+        );
+
+        return this.#flux_config_api;
+    }
+
+    /**
+     * @returns {Promise<FluxHttpApi>}
+     */
+    async #getFluxHttpApi() {
+        this.#flux_http_api ??= (await import("../../flux-http-api/src/FluxHttpApi.mjs")).FluxHttpApi.new(
+            this.#flux_shutdown_handler
+        );
+
+        return this.#flux_http_api;
+    }
+
+    /**
+     * @returns {Promise<FluxAuthenticationBackend>}
+     */
+    async #getFluxOpenIdConnectAuthenticationBackend() {
+        if (this.#flux_open_id_connect_authentication_backend === null) {
+            const flux_config_api = await this.#getFluxConfigApi();
+
+            this.#flux_open_id_connect_authentication_backend ??= (await import("../../flux-authentication-backend/src/FluxOpenIdConnectAuthenticationBackend/FluxOpenIdConnectAuthenticationBackend.mjs")).FluxOpenIdConnectAuthenticationBackend.new(
                 await this.#getFluxHttpApi(),
                 await flux_config_api.getConfig(
                     PROVIDER_CONFIG_URL_KEY
@@ -187,30 +240,6 @@ export class FluxOpenIdConnectAuthenticationBackend {
             );
         }
 
-        return this.#flux_authentication_backend;
-    }
-
-    /**
-     * @returns {Promise<FluxConfigApi>}
-     */
-    async #getFluxConfigApi() {
-        this.#flux_config_api ??= (await import("../../flux-config-api/src/FluxConfigApi.mjs")).FluxConfigApi.new(
-            await (await import("../../flux-config-api/src/getValueProviderImplementations.mjs")).getValueProviderImplementations(
-                CONFIG_ENV_PREFIX
-            )
-        );
-
-        return this.#flux_config_api;
-    }
-
-    /**
-     * @returns {Promise<FluxHttpApi>}
-     */
-    async #getFluxHttpApi() {
-        this.#flux_http_api ??= (await import("../../flux-http-api/src/FluxHttpApi.mjs")).FluxHttpApi.new(
-            this.#flux_shutdown_handler
-        );
-
-        return this.#flux_http_api;
+        return this.#flux_open_id_connect_authentication_backend;
     }
 }
