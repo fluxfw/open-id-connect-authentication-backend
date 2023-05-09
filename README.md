@@ -2,7 +2,37 @@
 
 Open id connect authentication backend
 
-## Config
+## Set up
+
+*You need to fill placeholders (Wrapped in `%`), create secret files and adjust to your needs (Applies everywhere)*
+
+### Docker
+
+#### Compose
+
+```yaml
+services:
+    flux-open-id-connect-authentication-backend:
+        environment:
+            - FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_AUTHENTICATION_PASSWORD_FILE=/run/secrets/flux_open_id_connect_authentication_backend_password
+            - FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_CLIENT_ID_FILE=/run/secrets/flux_open_id_connect_authentication_backend_provider_client_id
+            - FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_CLIENT_SECRET_FILE=/run/secrets/flux_open_id_connect_authentication_backend_provider_client_secret
+            - FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_URL=%provider-host%
+        image: fluxfw/flux-open-id-connect-authentication-backend:%version%
+        secrets:
+            - flux_open_id_connect_authentication_backend_password
+            - flux_open_id_connect_authentication_backend_provider_client_id
+            - flux_open_id_connect_authentication_backend_provider_client_secret
+secrets:
+    flux_open_id_connect_authentication_backend_password:
+        file: ./data/secrets/flux_open_id_connect_authentication_backend_password
+    flux_open_id_connect_authentication_backend_provider_client_id:
+        file: ./data/secrets/flux_open_id_connect_authentication_backend_provider_client_id
+    flux_open_id_connect_authentication_backend_provider_client_secret:
+        file: ./data/secrets/flux_open_id_connect_authentication_backend_provider_client_secret
+```
+
+### Config
 
 | Config | Default value | Environment variable | Cli parameter | Config JSON file |
 | ------ | ------------- | -------------------- | ------------- | ---------------- |
@@ -19,7 +49,7 @@ Open id connect authentication backend
 | Frontend base route | `/api/authentication` | `FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_FRONTEND_BASE_ROUTE`<br>`FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_FRONTEND_BASE_ROUTE_FILE` | `--frontend-base-route ...`<br>`--frontend-base-route-file ...` | `"frontend-base-route": "..."`<br>`"frontend-base-route-file": "..."` |
 | **Provider client id** | *-* | `FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_CLIENT_ID`<br>`FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_CLIENT_ID_FILE` | `--provider-client-id ...`<br>`--provider-client-id-file ...` | `"provider-client-id": "..."`<br>`"provider-client-id-file": "..."` |
 | **Provider client secret** | *-* | `FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_CLIENT_SECRET`<br>`FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_CLIENT_SECRET_FILE` | `--provider-client-secret ...`<br>`--provider-client-secret-file ...` | `"provider-client-secret": "..."`<br>`"provider-client-secret-file": "..."` |
-| Provider HTTPS certificate | *-* | `FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_HTTPS_CERTIFICATE`<br>`FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_HTTPS_CERTIFICATE_FILE` | `--provider-https-certificate ...`<br>`--provider-https-certificate-file ...` | `"provider-https-certificate": "..."`<br>`"provider-https-certificate-file": "..."` |
+| Provider HTTPS certificate<br>(For trust self signed) | *-* | `FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_HTTPS_CERTIFICATE`<br>`FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_HTTPS_CERTIFICATE_FILE` | `--provider-https-certificate ...`<br>`--provider-https-certificate-file ...` | `"provider-https-certificate": "..."`<br>`"provider-https-certificate-file": "..."` |
 | Provider redirect uri | `http[s]://%host%/api/authentication/callback` (Based on request and frontend base route) | `FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_REDIRECT_URI`<br>`FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_REDIRECT_URI_FILE` | `--provider-redirect-uri ...`<br>`--provider-redirect-uri-file ...` | `"provider-redirect-uri": "..."`<br>`"provider-redirect-uri-file": "..."` |
 | Provider scope | `openid` | `FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_SCOPE`<br>`FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_SCOPE_FILE` | `--provider-scope ...`<br>`--provider-scope-file ...` | `"provider-scope": "..."`<br>`"provider-scope-file": "..."` |
 | **Provider url** | *-* | `FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_URL`<br>`FLUX_OPEN_ID_CONNECT_AUTHENTICATION_BACKEND_PROVIDER_URL_FILE` | `--provider-url ...`<br>`--provider-url-file ...` | `"provider-url": "..."`<br>`"provider-url-file": "..."` |
