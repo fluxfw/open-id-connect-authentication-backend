@@ -11,9 +11,6 @@ FROM node:20-alpine
 
 USER node:node
 
-EXPOSE 443
-EXPOSE 80
-
 ENTRYPOINT ["/flux-open-id-connect-authentication-backend/bin/server.mjs"]
 
 COPY --from=build /build /
