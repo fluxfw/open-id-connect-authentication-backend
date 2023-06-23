@@ -7,6 +7,8 @@ RUN ln -s libs/flux-open-id-connect-authentication-backend/bin /build/flux-open-
 
 COPY . /build/flux-open-id-connect-authentication-backend/libs/flux-open-id-connect-authentication-backend
 
+RUN /build/flux-open-id-connect-authentication-backend/libs/flux-open-id-connect-authentication-backend/bin/build.mjs prod
+
 FROM node:20-alpine
 
 USER node:node
